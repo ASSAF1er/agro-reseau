@@ -1,7 +1,7 @@
 import Typed from "react-typed";
 function Hero() {
   return (
-    <div className=" w-screen flex h-full items-center bg-[#166534] overflow-hidden ">
+    <div className="   flex h-screen items-center bg-[#166534] overflow-hidden ">
       <div className=" w-[80%] sm:w-[90%] md:w-[55%] mx-[10%] sm:mx-[5%] md:mr-0">
         <div className="text-[30px]  sm:text-[40px] md:text-[50px]  text-[#ffffff] sm:leading-[40px] md:leading-[50px] leading-[30px] font-bold">
           Les producteurs locaux près de chez vous pour des produits

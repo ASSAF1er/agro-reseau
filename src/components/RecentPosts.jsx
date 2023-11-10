@@ -1,12 +1,12 @@
 import Post from "../components/Post";
-function RecentPost() {
+import { posts } from "../utils/postList";
+function RecentPost({ initial_index, end_index }) {
   return (
-    <div>
-      <p className="text-center text-[50px] text-[#333333] font-bold py-[20px]">
-        Annonces récentes
-      </p>
-      <div className="flex flex-row justify-center it">
-        <Post />
+    <div className="bg-gray-200 py-5 ">
+      <div className="flex flex-col gap-y-3 justify-center  items-center">
+        {posts.slice(initial_index, end_index).map((singlePost) => (
+          <Post post={singlePost} />
+        ))}
       </div>
     </div>
   );

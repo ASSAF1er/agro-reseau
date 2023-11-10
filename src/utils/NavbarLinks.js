@@ -1,0 +1,27 @@
+export const NavbarLinks=[
+    {
+        id:1,
+        label:'Accueil',
+        path:'/'
+    },
+    {
+        id:1,
+        label:'producteurs',
+        path:'/producteurs'
+    },
+    {
+        id:1,
+        label:'projets',
+        path:'/projets'
+    },
+    {
+        id:1,
+        label:'chat',
+        path:'/chat'
+    },
+    {
+        id:1,
+        label:'notifications',
+        path:'/'
+    },
+]
