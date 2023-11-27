@@ -1,11 +1,12 @@
-import HeroProductors from "../components/HeroProductors";
-import Producers from "../components/Producers";
+import HeroProductors from '../components/HeroProductors'
+import Producers from '../components/Producers'
 function Productors() {
-  return (
-    <div>
-      <HeroProductors />
-      <Producers />
-    </div>
-  );
+    document.documentElement.scrollTop = 0
+    return (
+        <div>
+            <HeroProductors />
+            <Producers />
+        </div>
+    )
 }
-export default Productors;
+export default Productors

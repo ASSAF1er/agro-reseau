@@ -16,8 +16,8 @@ export const NavbarLinks=[
     },
     {
         id:1,
-        label:'chat',
-        path:'/chat'
+        label:'chatBOT',
+        path:'/chatBOT'
     },
     {
         id:1,

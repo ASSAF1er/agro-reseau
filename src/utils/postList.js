@@ -2,7 +2,7 @@ import image_test from '../assets/image_test.jpg'
 export  const posts=[
     
     {
-      "name": "Farm Fresh Produce",
+      "name": "John's Farm",
       "date": "2022-01-05",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod tincidunt magna ut lacinia.",
       "id": "12345",
@@ -26,7 +26,7 @@ export  const posts=[
       "nbLikes": "800"
     },
     {
-      "name": "Fresh From the Fields",
+      "name": 'Fresh Harvest',
       "date": "2022-01-08",
       "description": "Fusce in libero dui. Nulla facilisi. Donec auctor, leo sit amet egestas pellentesque, ligula dolor tincidunt nulla.",
       "id": "45678",
@@ -34,7 +34,7 @@ export  const posts=[
       "nbLikes": "150"
     },
     {
-      "name": "Garden Delights",
+      "name": "John's Farm",
       "date": "2022-01-09",
       "description": "Morbi consequat mauris id risus egestas, a mattis ante suscipit. Curabitur nec lacus lacinia, tempus orci ac, rutrum ante.",
       "id": "56789",

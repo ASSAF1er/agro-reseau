@@ -5,7 +5,7 @@ function PasserAnnonce() {
     const [showPopover, setShowPopover] = useState(false)
     const closePopover = () => setShowPopover(!showPopover)
     return (
-        <div className="flex w-[40%] mt-[50px] py-3 shadow-md px-5 flex-col justify-center items-center bg-white rounded-md">
+        <div className="flex sm:w-[40%] w-[90%] mt-[50px] py-3 shadow-md px-5 flex-col justify-center items-center bg-white rounded-md">
             <div className="flex items-center gap-2 justify-center w-full">
                 <img src={default_profile} alt="" className="h-12 object-cover w-12 rounded-full " />
 
@@ -25,7 +25,7 @@ function PasserAnnonce() {
                 <div className=" flex items-center bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer px-5 py-2">
                     <span className="material-icons-outlined">video_call</span> vidéo
                 </div>
-                <div className="bg-[#166534] hover:bg-[#178240] text-white rounded-md cursor-pointer px-5 py-2">
+                <div className="bg-[#006400] hover:bg-[#178240] text-white rounded-md cursor-pointer px-5 py-2">
                     Publier
                 </div>
             </div>
