@@ -1,14 +1,15 @@
 import { TextField } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import img_page_signup from '../assets/img_page_signup.jpg'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import default_profile from '../assets/default_profile.jpg'
+import axios from 'axios'
 function Signup() {
     const [soldProducts, setSoldProducts] = useState([])
     const [product, setProduct] = useState('')
     const [typeAccount, setTypeAccount] = useState('')
-    const [valiTypeAccount, setValidTypeAccount] = useState('')
+    const [validTypeAccount, setValidTypeAccount] = useState('')
     const [showPassword, setShowPassWord] = useState(false)
     const [showConfirmPassword, setShowConfirmPassWord] = useState(false)
     const [email, setEmail] = useState('')
@@ -31,11 +32,19 @@ function Signup() {
     const handledeleteProduct = (name) => {
         setSoldProducts(soldProducts.filter((prod) => prod !== name))
     }
+    const createUser = async () => {
+        await axios
+            .post('http://localhost:8000/api/register/', newUser)
+            .then((res) => console.log({ res }))
+            .catch((res) => console.log({ res }))
+    }
     const handleCreateAccount = () => {
-        setSend(true)
         setValidEmail(validateEmail(email))
         setValidPassword(validatePassword(password))
         setValidConfirmPassword(validateConfirmPassword())
+
+        //  if (validateEmail(email) && validatePassword() && validateConfirmPassword()) {
+        createUser()
     }
     const validateEmail = (email) => {
         const regex =
@@ -43,7 +52,7 @@ function Signup() {
         return regex.test(email)
     }
     const validatePassword = (pwd) => {
-        if (pwd.length >= 6) {
+        if (pwd && pwd.length >= 6) {
             return true
         } else {
             return false
@@ -53,6 +62,17 @@ function Signup() {
         if (password === confirmPassword) return true
         else return false
     }
+    const [newUser, setNewUser] = useState({})
+    useEffect(() => {
+        setNewUser({
+            ...newUser,
+            username: name,
+            email: email,
+            tel: password,
+            password: password
+        })
+    }, [name, email, password])
+
     return (
         <div className="    flex flex-row     ">
             <div className="flex flex-col    gap-3 w-[50%] px-20 mt-[30px] pb-5 ">
@@ -114,7 +134,10 @@ function Signup() {
                         id="name"
                         type="text"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => {
+                            setName(e.target.value)
+                            setSend(true)
+                        }}
                         className={classNames(
                             !name && send && 'border-red-500',
                             'border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] '
@@ -135,6 +158,7 @@ function Signup() {
                             onChange={(e) => {
                                 setPassword(e.target.value)
                                 setValidPassword(true)
+                                setSend(true)
                             }}
                             className={classNames(
                                 !validPassword && send && 'border-red-500',
@@ -171,6 +195,7 @@ function Signup() {
                             onChange={(e) => {
                                 setConfirmPassword(e.target.value)
                                 setValidConfirmPassword(true)
+                                setSend(true)
                             }}
                             className={classNames(
                                 (!validConfirmPassword || !confirmPassword) && send && 'border-red-500',
@@ -199,12 +224,12 @@ function Signup() {
                         'w-full flex flex-col gap-1'
                     )}
                 >
-                    <label htmlFor="name" className="text-gray-900">
+                    <label htmlFor="produits" className="text-gray-900">
                         Produits vendus
                     </label>
                     <div className="flex gap-2 ">
                         <input
-                            id="name"
+                            id="produits"
                             type="text"
                             value={product}
                             onChange={(e) => setProduct(e.target.value)}

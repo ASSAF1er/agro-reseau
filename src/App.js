@@ -12,12 +12,14 @@ import Signup from "./components/Signup";
 import Profile from "./pages/Profile";
 import Chatbot from "./pages/Chatbot";
 import Messages from "./pages/Messages";
+import ChatBotContextProvider  from "./utils/ChatBotContext";
 function App() {
   return (
     
     <Router>
       <AuthContextProvider>
       <PostsDataProvider>
+        <ChatBotContextProvider>
       <Routes>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/login" element={<Connexion/>}/>
@@ -30,6 +32,7 @@ function App() {
           <Route path="/messages" element={<Messages/>}/>
         </Route>
       </Routes>
+      </ChatBotContextProvider>
       </PostsDataProvider>
       </AuthContextProvider>
     </Router>

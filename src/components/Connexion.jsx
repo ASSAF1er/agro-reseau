@@ -4,13 +4,11 @@ import classNames from 'classnames'
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../utils/AuthContext'
-
+import axios from 'axios'
 
 function Connexion() {
     const { connectedUser, setConnectedUser, usersList } = useContext(AuthContext)
-    const handleLogin = () => {
-        setConnectedUser(!connectedUser)
-    }
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [validEmail, setValidEmail] = useState(true)
@@ -47,6 +45,20 @@ function Connexion() {
             }
         }
     }
+    const [data, setData] = useState()
+
+    useEffect(() => {
+        setData({ username: email, password })
+    }, [email, password])
+    const handleLogin = async () => {
+        setConnectedUser(!connectedUser)
+        await axios
+            .post('http://localhost:8000/api/login/', data)
+            .then((res) => {
+                console.log(res.message)
+            })
+            .catch(console.log("la paire mot de passe email n'a pas marché"))
+    }
     return (
         <div className="    flex flex-row     ">
             <div className="flex flex-col    gap-3 w-[50%] px-20 mt-[30px] pb-5 ">
@@ -58,7 +70,6 @@ function Connexion() {
                 </div>
                 <div className="bg-red-100 text-red-500 rounded-md shadow-md text-center py-[20px] ">
                     Mot de passe incorrect ou compte inexistant
-
                 </div>
                 <div className="w-full flex flex-col gap-1">
                     <label htmlFor="email" className="text-gray-900">
@@ -103,7 +114,7 @@ function Connexion() {
                     <div className="text-[#166534] cursor-pointer hover: "> Mot de passe oublié ?</div>
                 </div>
                 <Link
-                    onClick={() => handleConnect(email)}
+                    onClick={handleLogin}
                     className="text-center bg-[#006400] hover:bg-green-600 py-3  w-full rounded-[5px] text-white hover:shadow-xl cursor-pointer"
                 >
                     Se connecter
