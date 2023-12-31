@@ -1,7 +1,15 @@
 import default_profile from '../assets/default_profile.jpg'
-import { productors } from '../utils/productorsList'
+import { useContext, useEffect, useState } from 'react'
+import { ProducersData } from '../utils/ProducersContext '
+
 import { Link } from 'react-router-dom'
 function Producers() {
+    const { producersList, search, searchClicked } = useContext(ProducersData)
+    const [tempProducersList, setTempProducersList] = useState()
+    useEffect(() => {
+        setTempProducersList(producersList.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())))
+    }, [search, producersList])
+
     const produitsRecherches = [
         'Arachides',
         'Manioc',
@@ -16,12 +24,17 @@ function Producers() {
     ]
     return (
         <div className="pt-10 px-10 bg-gray-100 w-full">
-            <p className="text-[20px] font-bold pb-10 "> +12 500 producteurs inscrits</p>
+            <p className="text-[20px] font-bold pb-10 ">
+                {' '}
+                {!searchClicked
+                    ? `${producersList.length} producteurs inscrits`
+                    : `${tempProducersList.length} résultats pour "${search}"`}
+            </p>
             <div className=" flex flex-col md:flex-row gap-x-0 w-full">
                 <div className="flex flex-row justify-center flex-wrap gap-10 w-full  md:w-[70%] pb-10 ">
-                    {productors.map((prod) => (
-                        <Card productor={prod} />
-                    ))}
+                    {!searchClicked
+                        ? producersList.map((prod) => <Card productor={prod} />)
+                        : tempProducersList.map((prod) => <Card productor={prod} />)}
                 </div>
                 {/*section de droite*/}
                 <div className="flex flex-col gap-10  w-full md:w-[30%] justify-start items-center ">
@@ -37,7 +50,7 @@ function Producers() {
                             </p>
                         </div>
                         <div>
-                            <span className="bg-[#166534] cursor-pointer hover:font-bold text-[18px] w-full text-white py-3 px-5 rounded-xl  border-2 border-[#166534] hover:bg-gray-100 hover:text-[#166534]">
+                            <span className="bg-[#006400] cursor-pointer hover:font-bold text-[18px] w-full text-white py-3 px-5 rounded-xl  border-2 border-[#006400] hover:bg-gray-100 hover:text-[#006400]">
                                 Passer une annonce
                             </span>
                         </div>
@@ -50,12 +63,12 @@ function Producers() {
 
                             <p className="px-3 text-[16px]  leading-[23px] ">
                                 Déposez les produits que vous vendez sur{' '}
-                                <span className="text-[#166534] font-bold ">AgroRéseau</span> et faites vous un réseau
+                                <span className="text-[#006400] font-bold ">AgroRéseau</span> et faites vous un réseau
                                 pour l'écoulement de vos produits
                             </p>
                         </div>
                         <div>
-                            <span className="bg-[#166534] cursor-pointer text-[18px] hover:font-bold w-full text-white py-3 px-5 rounded-xl  border-2 border-[#166534] hover:bg-gray-100 hover:text-[#166534]">
+                            <span className="bg-[#006400] cursor-pointer text-[18px] hover:font-bold w-full text-white py-3 px-5 rounded-xl  border-2 border-[#006400] hover:bg-gray-100 hover:text-[#006400]">
                                 Passer une annonce
                             </span>
                         </div>
@@ -64,7 +77,7 @@ function Producers() {
                         <p className="font-bold text-[20px] ">Les produits les plus demandés ces 30 derniers jours</p>
                         <div className="h-[400px] flex flex-col overflow-y-scroll gap-5 mr-2 scrollbar-color-blue scrollbar-width-10px scroll- ">
                             {produitsRecherches.map((item) => (
-                                <div className="bg-white rounded-xl shadow-xl font-bold scroll-smooth hover:text-[#166534] py-3">
+                                <div className="bg-white rounded-xl shadow-xl font-bold scroll-smooth hover:text-[#006400] py-3">
                                     {item}
                                 </div>
                             ))}
@@ -106,7 +119,7 @@ function Card({ productor }) {
             <div className=" flex flex-col justify-center px-2 pt-2">
                 <Link
                     to={`/profile/${productor.name}`}
-                    className="text-[#166534] font-bold text-[17px] text-center hover:underline  "
+                    className="text-[#006400] font-bold text-[17px] text-center hover:underline  "
                 >
                     {productor.name}
                 </Link>
@@ -115,19 +128,19 @@ function Card({ productor }) {
                 </div>
             </div>
             <div className="flex flex-row items-center justify-center gap-4 my-2">
-                <div className="text-[#166534] text-[18px]">
+                <div className="text-[#006400] text-[18px]">
                     {stars.map((star) => (
                         <>{star}</>
                     ))}
                 </div>
                 <div>
-                    <p className="text-center font-bold text-[#166534] text-[18px]">{parseFloat(productor.ranking)}</p>
+                    <p className="text-center font-bold text-[#006400] text-[18px]">{parseFloat(productor.ranking)}</p>
                     <p className="text-[12px]">476 avis</p>
                 </div>
             </div>
             <div className="px-2 text-[15px] flex flex-row flex-wrap gap-2 justify-center">
                 {productor.products.split(',').map((item) => (
-                    <div className="rounded-full py-[2px] px-3  text-[#166534] border border-[#166534] hover:bg-[#166534] hover:text-white">
+                    <div className="rounded-full py-[2px] px-3  text-[#006400] border border-[#006400] hover:bg-[#006400] hover:text-white">
                         {item}
                     </div>
                 ))}

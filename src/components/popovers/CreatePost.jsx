@@ -4,11 +4,14 @@ import Dialog from '@mui/material/Dialog'
 import { useContext } from 'react'
 import { PostsData } from '../../utils/PostsContext'
 import classNames from 'classnames'
+import axios from 'axios'
 function CreatePost({ openPopover, closePopover }) {
     const { postsList, setPostsList } = useContext(PostsData)
     const [postDescription, setPostDescription] = useState('')
     const [postPhoto, setPostPhoto] = useState('')
     const [showImageSelector, setShowImageSelector] = useState(false)
+    const [postVideo, setPostVideo] = useState('')
+    const [showVideoSelector, setShowVideoSelector] = useState(false)
     const [newPost, setNewPost] = useState({ name: 'Producteur alpha' })
 
     useEffect(() => {
@@ -21,13 +24,24 @@ function CreatePost({ openPopover, closePopover }) {
         setNewPost({
             ...newPost,
             description: postDescription,
-            id: new Date() + new Date().getMilliseconds(),
+
             date: `${day}-${month}-${year} ${hours}:${mins}:${secs}`,
-            photo: postPhoto
+            image: postPhoto,
+            video: postVideo,
+            author: 'assaf',
+            like: 0
         })
-    }, [postDescription, postPhoto])
+    }, [postDescription, postPhoto, postVideo])
+
+    const addPost = (newPost) => {
+        axios
+            .post('http:/localhost:8000/blog/create', newPost)
+            .then(() => {})
+            .catch((error) => console.log(error))
+    }
 
     const handleAddPost = () => {
+        addPost(newPost)
         setPostsList([newPost, ...postsList])
         setPostDescription('')
         setPostPhoto('')
@@ -107,17 +121,59 @@ function CreatePost({ openPopover, closePopover }) {
                                     </div>
                                 </div>
                             )}
+                            {showVideoSelector && (
+                                <div className=" relative min-h-[200px] border border-gray-400 bg-gray-50 rounded-md p-2">
+                                    <span
+                                        onClick={() => setShowVideoSelector(false)}
+                                        className="material-icons absolute top-2 right-2 p-2 cursor-pointer text-end bg-gray-100 hover:bg-gray-200 rounded-full"
+                                    >
+                                        close
+                                    </span>{' '}
+                                    <input
+                                        type="file"
+                                        accept="video/*"
+                                        onChange={(e) => setPostVideo(URL.createObjectURL(e.target.files[0]))}
+                                        className="file:bg-[#006400] file:text-white  file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold file:hover:bg-[#178240]"
+                                    />
+                                    <div className="relative w-[280px] ">
+                                        {postVideo && (
+                                            <video
+                                                src={postVideo}
+                                                alt=""
+                                                className="rounded-md h-[280px] w-[280px] mt-2 "
+                                            />
+                                        )}
+                                        <span
+                                            onClick={() => setPostVideo('')}
+                                            className={classNames(
+                                                !postVideo && 'hidden',
+                                                'material-icons absolute flex items-center justify-center rounded-full p-1 top-1 right-1 bg-white text-red-500 cursor-pointer hover:text-red-400 '
+                                            )}
+                                        >
+                                            delete
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <div className="flex justify-around my-2 items-center">
                             <div>Ajouter à votre publication</div>
                             <div
-                                onClick={() => setShowImageSelector(true)}
+                                onClick={() => {
+                                    showVideoSelector && setShowVideoSelector(false)
+                                    setShowImageSelector(true)
+                                }}
                                 className="flex items-center bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer px-5 py-2"
                             >
                                 <span className="material-icons-outlined">add_photo_alternate</span> photo
                             </div>
                             <div
-                                onClick={() => setShowImageSelector(true)}
+                                onClick={() => {
+                                    showImageSelector && setShowImageSelector(false)
+                                    setShowVideoSelector(true)
+                                }}
                                 className=" flex items-center bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer px-5 py-2"
                             >
                                 <span className="material-icons-outlined">video_call</span> vidéo

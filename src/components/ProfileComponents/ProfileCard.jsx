@@ -1,4 +1,5 @@
 import default_profile from '../../assets/default_profile.jpg'
+import { Link } from 'react-router-dom'
 function ProfileCard({ account }) {
     return (
         <div className="flex flex-row flex-1 gap-[30px] h-[300px] rounded-[20px] shadow-sm bg-white ">
@@ -24,7 +25,7 @@ function ProfileCard({ account }) {
                 </div>
                 <div className="absolute bottom-3 right-5 flex ">
                     <div className="px-5 py-[8px] rounded-[6px] bg-[#006400] hover:bg-[#005000] cursor-pointer text-white ">
-                        Envoyer un message
+                        <Link to={`/1/messages/${account.name}`}> Envoyer un message</Link>
                     </div>
                 </div>
             </div>

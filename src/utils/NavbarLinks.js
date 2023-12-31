@@ -9,15 +9,11 @@ export const NavbarLinks=[
         label:'producteurs',
         path:'/producteurs'
     },
-    {
-        id:1,
-        label:'projets',
-        path:'/projets'
-    },
+    
     {
         id:1,
         label:'chatBOT',
-        path:'/chatBOT'
+        path:'/1/chatBOT'
     },
     {
         id:1,

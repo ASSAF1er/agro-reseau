@@ -7,6 +7,7 @@ function Post({ post }) {
     const [like, setLike] = useState(false)
     const [countLike, setCountLike] = useState(post.nbLikes ? post.nbLikes : 0)
     const comments = 0
+
     const handleLike = () => {
         setLike(!like)
         like ? setCountLike(countLike - 1) : setCountLike(countLike + 1)
@@ -34,12 +35,15 @@ function Post({ post }) {
             </div>
             <div className="py-3 px-3">{post.description}</div>{' '}
             <div>
-                <img
-                    src={post.photo ? post.photo : image_test}
-                    alt=""
-                    loading="lazy"
-                    className="w-full object-cover max-h-[400px] "
-                />
+                {post.video && <video src={post.video} controls />}
+                {!post.video && (
+                    <img
+                        src={post.image ? post.image : image_test}
+                        alt=""
+                        loading="lazy"
+                        className="w-full object-cover max-h-[400px] "
+                    />
+                )}
             </div>
             <div className="flex flex-row justify-between px-3 space text-[15px]  mt-5 border-t pt-2 border-gray-300">
                 <div
@@ -70,7 +74,9 @@ function Post({ post }) {
                         {comments}
                     </span>
                 </div>
-                <div className="cursor-pointer bg-[#006400] text-white px-3 sm:px-7 py-2 rounded-md ">contacter</div>
+                <div className="cursor-pointer bg-[#006400] text-white px-3 sm:px-7 py-2 rounded-md ">
+                    <Link to={`/1/messages/${post.name}`}>contacter</Link>
+                </div>
             </div>
         </div>
     )

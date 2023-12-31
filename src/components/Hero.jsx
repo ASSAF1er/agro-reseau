@@ -1,4 +1,6 @@
 import Typed from 'react-typed'
+import image_hero from '../assets/image_hero.jpg'
+import { Link } from 'react-router-dom'
 function Hero() {
     return (
         <div className="   flex h-screen items-center bg-[#006400] overflow-hidden ">
@@ -6,7 +8,7 @@ function Hero() {
                 <div className="text-[30px]  sm:text-[40px] md:text-[50px]  text-[#ffffff] sm:leading-[40px] md:leading-[50px] leading-[30px] font-bold">
                     Les producteurs locaux près de chez vous pour des produits
                     <Typed
-                        className="pl-2 text-[#000000]"
+                        className="pl-2 text-yellow-500"
                         strings={['Bios.', 'Frais.', 'de qualité.']}
                         typeSpeed={50}
                         backSpeed={50}
@@ -19,12 +21,15 @@ function Hero() {
                         Passer une annonce
                         <span className="material-icons">arrow_right_alt</span>
                     </div>
-                    <div className="flex items-center  justify-between bg-[#3f6212] text-[#ffffff] w-full sm:w-[290px] text-[19px] duration-[400ms] px-4 py-3 rounded-[3px] shadow-md hover:cursor-pointer hover:px-2">
-                        Contacter un producteur
-                        <span className="material-icons">arrow_right_alt</span>
-                    </div>
+                    <Link to="/producteurs">
+                        <div className="flex items-center  justify-between bg-[#3f6212] text-[#ffffff] w-full sm:w-[290px] text-[19px] duration-[400ms] px-4 py-3 rounded-[3px] shadow-md hover:cursor-pointer hover:px-2">
+                            Contacter un producteur
+                            <span className="material-icons">arrow_right_alt</span>
+                        </div>
+                    </Link>
                 </div>
             </div>
+            <img alt="" src={image_hero} className="bg-white rounded-md w-[25%] h-[50%] object-cover" />
         </div>
     )
 }

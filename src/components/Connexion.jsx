@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../utils/AuthContext'
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 function Connexion() {
     const { connectedUser, setConnectedUser, usersList } = useContext(AuthContext)
@@ -55,9 +56,20 @@ function Connexion() {
         await axios
             .post('http://localhost:8000/api/login/', data)
             .then((res) => {
-                console.log(res.message)
+                storeInLocalStorage(1, res.data.token)
             })
-            .catch(console.log("la paire mot de passe email n'a pas marché"))
+            .catch((res) => {
+                console.log(res)
+            })
+    }
+    const storeInLocalStorage = (userId, token) => {
+        localStorage.setItem('userId', userId)
+        localStorage.setItem('token', token)
+        setRediriger(true)
+    }
+    const [rediriger, setRediriger] = useState(false)
+    if (rediriger) {
+        window.location.href = '/'
     }
     return (
         <div className="    flex flex-row     ">

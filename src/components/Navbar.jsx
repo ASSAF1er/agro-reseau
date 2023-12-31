@@ -41,10 +41,12 @@ function Navbar() {
                         <NavLink item={item} />
                     ))}
 
-                    <Link to="/messages">
+                    <Link to="/1/messages/null">
                         <div
                             className={classNames(
-                                '/messages' === location.pathname ? 'text-[#fbbf24]  bord border-b-[#fbbf24]' : '',
+                                'messages' === location.pathname.split('/')[2]
+                                    ? 'text-[#fbbf24]  bord border-b-[#fbbf24]'
+                                    : '',
                                 nav
                             )}
                         >
@@ -59,7 +61,7 @@ function Navbar() {
                         </div>
                     </Link>
 
-                    <div className="flex flex-row items-center gap-2 ">
+                    <div className="flex flex-row items-center gap-5 ">
                         <Link>
                             <div className="flex  justify-center items-center h-8 w-8 text rounded-full bg-[#ffffff] text-[#006400] hover:bg-[#fbbf24] hover:cursor-pointer">
                                 <span className="material-icons">search</span>

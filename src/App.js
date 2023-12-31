@@ -13,13 +13,16 @@ import Profile from "./pages/Profile";
 import Chatbot from "./pages/Chatbot";
 import Messages from "./pages/Messages";
 import ChatBotContextProvider  from "./utils/ChatBotContext";
+import ProducersDataProvider from "./utils/ProducersContext ";
+import LayoutMessages from "./components/LayoutMessages";
 function App() {
   return (
     
     <Router>
       <AuthContextProvider>
       <PostsDataProvider>
-        <ChatBotContextProvider>
+      <ChatBotContextProvider>
+      <ProducersDataProvider>
       <Routes>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/login" element={<Connexion/>}/>
@@ -28,10 +31,16 @@ function App() {
           <Route path="/producteurs" element={<Productors/>}/>
           <Route path="/our-team" element={<OurTeam/>}/>
           <Route path='/profile/:id' element={<Profile/>}/>
-          <Route path="/chatbot" element={<Chatbot/>}/>
-          <Route path="/messages" element={<Messages/>}/>
+          
+          
         </Route>
+        <Route path="/1" element={<LayoutMessages/>}>
+          <Route path="/1/chatbot" element={<Chatbot/>}/>
+          <Route path="/1/messages/:name" element={<Messages/>}/>
+        </Route>
+          
       </Routes>
+      </ProducersDataProvider>
       </ChatBotContextProvider>
       </PostsDataProvider>
       </AuthContextProvider>

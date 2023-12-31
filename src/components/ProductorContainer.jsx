@@ -1,5 +1,7 @@
 import default_profile from '../assets/default_profile.jpg'
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { ProducersData } from '../utils/ProducersContext '
 function ProductorContainer({ productor }) {
     return (
         <div className="relative w-[200px] transition-all ease-in-out h-[300px] shadow-sm hover:shadow-2xl hover:scale-[1.07] duration-300 rounded-md bg-white border boder-1 border-gray-300">

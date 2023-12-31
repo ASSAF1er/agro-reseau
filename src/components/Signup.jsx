@@ -68,8 +68,9 @@ function Signup() {
             ...newUser,
             username: name,
             email: email,
-            tel: password,
-            password: password
+            password: password,
+            adresse: '',
+            type_compte: typeAccount
         })
     }, [name, email, password])
 
@@ -121,7 +122,7 @@ function Signup() {
                         )}
                     >
                         <option value=""></option>
-                        <option value="producteur">Producteur</option>
+                        <option value="vendeur">Producteur</option>
                         <option value="acheteur">Acheteur ou visiteur</option>
                     </select>
                     {typeAccount === '' && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}

@@ -13,10 +13,13 @@ module.exports = {
           transform:' translateY(100%)',
           },
           '100%':{transform: 'translateY(0)'}
-        }
+        },
+        
+       
       },
       animation:{
         reveal: 'reveal ease 2s '
+        
       }
     },
   },

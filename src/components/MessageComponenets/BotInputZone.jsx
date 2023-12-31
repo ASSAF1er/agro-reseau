@@ -32,31 +32,31 @@ function BotInputZone() {
             })
             .catch((res) => setMessagesList([...messagesList, request, { id: 2, content: res.message }]))
     }
-    const handleClick = () => {
+    const handleClick = async (e) => {
+        e.preventDefault()
         setMessagesList([...messagesList, request])
-        askOpenAI()
+        await askOpenAI()
         setQuestion('')
     }
     return (
-        <div className="absolute bottom-2 flex w-full items-center justify-center gap-3 px-5">
-            <div className="px-5 rounded-full border border-[#006400] py-1 w-full bg-white shadow-sm">
-                <input
-                    type="text"
-                    placeholder="posez-votre question..."
-                    value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
-                    className="focus:outline-none w-full h-[40px] text-[18px] text-gray-800 "
-                />
+        <form>
+            <div className="absolute bottom-2 flex w-full items-center justify-center gap-3 px-5">
+                <div className="px-5 rounded-full border border-[#006400] py-1 w-full bg-white shadow-sm">
+                    <input
+                        type="text"
+                        placeholder="posez-votre question..."
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                        className="focus:outline-none w-full h-[40px] text-[18px] text-gray-800 "
+                    />
+                </div>
+                <button type="submit" onClick={(e) => handleClick(e)}>
+                    <span className="material-icons bg-[#006400] hover:bg-[#006000] rounded-full shadow-xl text-white p-3 cursor-pointer">
+                        send
+                    </span>
+                </button>
             </div>
-            <div>
-                <span
-                    onClick={handleClick}
-                    className="material-icons bg-[#006400] hover:bg-[#006000] rounded-full shadow-xl text-white p-3 cursor-pointer"
-                >
-                    send
-                </span>
-            </div>
-        </div>
+        </form>
     )
 }
 
