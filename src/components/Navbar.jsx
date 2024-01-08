@@ -4,11 +4,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { NavbarLinks } from '../utils/NavbarLinks'
 import { useContext } from 'react'
 import { AuthContext } from '../utils/AuthContext'
+import { Navigate } from 'react-router-dom'
 
 function Navbar() {
-    const { connectedUser } = useContext(AuthContext)
+    const { connectedUser, setConnectedUser } = useContext(AuthContext)
     const nav =
-        'text-[16px] flex items-center px-2  hover:cursor-pointer hover:text-[#fbbf24] border-y-[transparent] border-y-[4px] hover:border-b-[#fbbf24] py-2'
+        'text-[16px] flex items-center px-2  hover:cursor-pointer hover:text-[#fbbf24] border-y-[transparent] border-y-[4px] hover:border-b-[#fbbf24] py-2 uppercase'
     const [navMenu, setNav] = useState(false)
     const toogleNavMenu = () => {
         setNav(!navMenu)
@@ -20,6 +21,11 @@ function Navbar() {
         } else {
             setScroll(false)
         }
+    }
+    const Logout = () => {
+        setConnectedUser('')
+        localStorage.clear('user')
+        return <Navigate to="/" />
     }
     const location = useLocation()
 
@@ -36,7 +42,7 @@ function Navbar() {
                 )}
             >
                 <div className=" text-[25px] font-bold  pr-10 py-2 ">AgroRéseau</div>
-                <div className=" hidden md:flex flex-row justify-between text-3xl w-screen px-5  pb-[0px] uppercase">
+                <div className=" hidden md:flex flex-row justify-between text-3xl w-screen px-5  pb-[0px] ">
                     {NavbarLinks.slice(0, NavbarLinks.length - 1).map((item) => (
                         <NavLink item={item} />
                     ))}
@@ -69,8 +75,32 @@ function Navbar() {
                         </Link>
 
                         {connectedUser ? (
-                            <div className="relative h-9 w-9 rounded-full bg-[#000000] z-1">
-                                <div className=" absolute top-0 right-0 h-2 w-2 rounded-full bg-[#a3e635] z-2 "></div>
+                            <div className="group/profile">
+                                <div className="group/profile-photo relative border-2 rounded-full border-[#a3e635] p-[2px] cursor-pointer hover:bg ">
+                                    <div className=" h-9 w-9 rounded-full text-[18px] text-center text-white uppercase bg-blue-500 group-hover/profile-photo:bg-blue-400 z-1">
+                                        {connectedUser && connectedUser.username.split('').slice(0, 2)}
+                                        {/* <div className=" absolute top-0 right-0 h-2 w-2 rounded-full bg-[#a3e635] z-2 "></div> */}
+                                    </div>
+                                </div>
+                                <ul className="absolute invisible group-hover/profile:visible right-[50px] py-2  text-[16px]  bg-gray-100 rounded-md text-gray-500 shadow-xl">
+                                    <li className="group/voir-profil cursor-pointer flex items-center px-4 hover:text-gray-400 hover:bg-green-100">
+                                        {' '}
+                                        <span className="material-icons group-hover/voir-profil:text-gray-700 ">
+                                            person
+                                        </span>{' '}
+                                        Profil
+                                    </li>
+                                    <li
+                                        onClick={Logout}
+                                        className="group/deconnexion cursor-pointer flex items-center px-4 hover:text-gray-400 hover:bg-green-100"
+                                    >
+                                        {' '}
+                                        <span className="material-icons group-hover/deconnexion:text-red-500">
+                                            logout
+                                        </span>{' '}
+                                        Déconnexion
+                                    </li>
+                                </ul>
                             </div>
                         ) : (
                             <Link to="/login">
@@ -99,7 +129,7 @@ function Navbar() {
             <ul
                 className={classNames(
                     !navMenu ? 'left-[-100%]' : 'left-0',
-                    'md:hidden px-5 fixed z-10 ease-in-out text-white duration-500 top-0  bg-[#006400] w-[100%] h-screen pt-[50px] uppercase '
+                    'md:hidden px-5 fixed z-10 ease-in-out text-white duration-500 top-0  bg-[#006400] w-[100%] h-screen pt-[50px]  '
                 )}
             >
                 <li className="px-5 py-3 border-b border-gray-500 hover:bg-[#165034]">
@@ -130,7 +160,7 @@ export default Navbar
 
 function NavLink({ item }) {
     const nav =
-        'text-[16px] flex items-center px-2  hover:cursor-pointer hover:text-[#fbbf24] border-y-[transparent] border-y-[4px] hover:border-b-[#fbbf24] py-2'
+        'text-[16px] flex items-center px-2  hover:cursor-pointer hover:text-[#fbbf24] border-y-[transparent] border-y-[4px] hover:border-b-[#fbbf24] py-2 uppercase'
 
     const location = useLocation()
 

@@ -5,6 +5,7 @@ import RecentPosts from '../components/RecentPosts'
 import NearbyProductors from '../components/NearbyProductors'
 import PasserAnnonce from '../components/PasserAnnonce'
 
+
 function Home() {
     document.documentElement.scrollTop = 0
     return (

@@ -1,76 +1,88 @@
 import { useEffect, useState } from 'react'
 import img_page_signup from '../assets/img_page_signup.jpg'
 import classNames from 'classnames'
-import { Link } from 'react-router-dom'
+import { Link, json } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../utils/AuthContext'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+import { redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 function Connexion() {
-    const { connectedUser, setConnectedUser, usersList } = useContext(AuthContext)
+    const { connectedUser, setConnectedUser } = useContext(AuthContext)
 
-    const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [validEmail, setValidEmail] = useState(true)
+
     const [validPassword, setValidPassword] = useState(true)
     const [send, setSend] = useState(false)
+    const [correctPassword, setCorrectPassword] = useState(true)
+    const [remember, setRemember] = useState(false)
+    const [successful, setSuccessful] = useState(false)
 
     const validateEmail = (email) => {
-        setSend(true)
         const regex =
             /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i
         return regex.test(email)
     }
     const validatePassword = (pwd) => {
-        if (pwd.lenght >= 6) return true
-        else return false
+        if (pwd.trim() === '') {
+            return false
+        } else return true
     }
 
     const [user, setUser] = useState()
 
-    useEffect(() => {
-        setUser({ email, password })
-    }, [password, email])
     const [account, setAccount] = useState([])
-    const handleConnect = (email) => {
-        setValidEmail(validateEmail(email))
-        setValidPassword(validatePassword(password))
-        if (validEmail && validPassword) {
-            setAccount(usersList.filter((acc) => acc.password === user.password && acc.email === user.email))
-            if (account.lenght === 0) {
-                alert('non trouvé')
-            }
-            if (account.lenght === 1) {
-                alert('trouvé')
-            }
+
+    const handleConnect = () => {
+        setCorrectPassword(true)
+        setSend(true)
+        if (username.trim() !== '' && validatePassword(password)) {
+            handleLogin()
         }
     }
     const [data, setData] = useState()
 
     useEffect(() => {
-        setData({ username: email, password })
-    }, [email, password])
+        setData({ username: username, password })
+    }, [username, password])
+
     const handleLogin = async () => {
-        setConnectedUser(!connectedUser)
         await axios
             .post('http://localhost:8000/api/login/', data)
             .then((res) => {
-                storeInLocalStorage(1, res.data.token)
+                if (remember) {
+                    storeInLocalStorage(res.data)
+                }
+                setSuccessful(true)
+                setConnectedUser({
+                    userId: res.data.user_info.id,
+                    token: res.data.token,
+                    username: res.data.user_info.username
+                })
+                console.log(connectedUser)
+                setTimeout(() => {
+                    return <Navigate to="/" />
+                }, 2000)
+                //
             })
             .catch((res) => {
+                setCorrectPassword(false)
                 console.log(res)
             })
     }
-    const storeInLocalStorage = (userId, token) => {
-        localStorage.setItem('userId', userId)
-        localStorage.setItem('token', token)
-        setRediriger(true)
+    const storeInLocalStorage = (response) => {
+        localStorage.setItem(
+            'user',
+            JSON.stringify({
+                userId: response.user_info.id,
+                token: response.token,
+                username: response.user_info.username
+            })
+        )
     }
-    const [rediriger, setRediriger] = useState(false)
-    if (rediriger) {
-        window.location.href = '/'
-    }
+
     return (
         <div className="    flex flex-row     ">
             <div className="flex flex-col    gap-3 w-[50%] px-20 mt-[30px] pb-5 ">
@@ -80,37 +92,52 @@ function Connexion() {
                 <div className="text-center">
                     <p className="text-[20px] font-bold text-center  text-gray-900">Se connecter</p>
                 </div>
-                <div className="bg-red-100 text-red-500 rounded-md shadow-md text-center py-[20px] ">
-                    Mot de passe incorrect ou compte inexistant
-                </div>
+                {!correctPassword && (
+                    <div className="bg-red-100 text-red-500 rounded-md shadow-md text-center py-[20px] ">
+                        Mot de passe incorrect ou compte inexistant
+                    </div>
+                )}
+                {successful && (
+                    <div className="flex items-center  justify-center gap-2 bg-green-200 text-green-700 font-medium rounded-md shadow-md text-center py-[20px] ">
+                        <span className="material-icons">check_circle</span>
+                        {'  '} Connexion Réussie
+                    </div>
+                )}
                 <div className="w-full flex flex-col gap-1">
                     <label htmlFor="email" className="text-gray-900">
-                        E-mail
+                        Nom d'utilisateur
                     </label>
                     <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        id="username"
+                        type="text"
+                        value={username}
+                        onChange={(e) => {
+                            setUsername(e.target.value)
+                            setSend(true)
+                            setCorrectPassword(true)
+                        }}
                         className={classNames(
-                            validEmail ? '' : '!border-red-500',
+                            username.trim() === '' && send && '!border-red-500',
                             'border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] invalid:outline-red-500'
                         )}
                     />
-                    {email.trim() === '' && send && <p className="text-red-500 font-[300] "> champ obligatoire</p>}
-                    {!validEmail && send && email.trim() !== '' && (
+                    {username.trim() === '' && send && <p className="text-red-500 font-[300] "> champ obligatoire</p>}
+                    {/* {!validEmail && send && email.trim() !== '' && (
                         <p className="text-red-500 font-[300]"> adresse email non valide</p>
-                    )}
+                    )} */}
                 </div>
                 <div className="w-full flex flex-col gap-1">
                     <label htmlFor="email" className="text-gray-900">
                         Mot de passe
                     </label>
                     <input
-                        id="email"
+                        id="password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPassword(e.target.value)
+                            setCorrectPassword(true)
+                        }}
                         className={classNames(
                             password.trim() === '' && send && 'border-red-500',
                             'border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] '
@@ -121,16 +148,24 @@ function Connexion() {
 
                 <div className="w-full flex justify-between">
                     <div className="text-gray-600">
-                        <input type="checkbox" /> se souvenir de moi
+                        <input
+                            type="checkbox"
+                            checked={remember}
+                            onChange={(e) => {
+                                setRemember(e.target.checked)
+                            }}
+                        />{' '}
+                        se souvenir de moi
                     </div>
                     <div className="text-[#166534] cursor-pointer hover: "> Mot de passe oublié ?</div>
                 </div>
-                <Link
-                    onClick={handleLogin}
+                <div
+                    onClick={handleConnect}
                     className="text-center bg-[#006400] hover:bg-green-600 py-3  w-full rounded-[5px] text-white hover:shadow-xl cursor-pointer"
                 >
                     Se connecter
-                </Link>
+                </div>
+                {successful && <Navigate to="/" replace={true} />}
                 <div className="text-end w-full text-gray-500 mt-3">
                     vous n'avez pas de compte?{' '}
                     <Link to="/signup" className="text-[#166534]  cursor-pointer underline ">
@@ -142,7 +177,7 @@ function Connexion() {
                 <img src={img_page_signup} alt="" className="   h-screen object-cover" />
                 <div className="absolute left-0 top-0 w-full h-full bg-[#166534]/50 backdrop-opacity-[0.1] px-5  text-white">
                     <p className="font-bold text-[30px] pt-[20%] ">
-                        Bienvenue sur la meilleure plateforme de mise en relation des producteurs et acheteurs dans la
+                        Bienvenue sur la meilleure plateforme de mise en relation des producteurs et acheteurs dans le
                         secteur agropastoral
                     </p>
                     <p className="text-[20px] pt-[20px] ">

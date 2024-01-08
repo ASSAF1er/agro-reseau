@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import OurTeam from "./components/OurTeam";
 import PostsDataProvider from "./utils/PostsContext";
-import { AuthContextProvider } from "./utils/AuthContext";
+import  AuthContextProvider  from "./utils/AuthContext";
 import Connexion from "./components/Connexion";
 import Layout from "./components/Layout";
 import Signup from "./components/Signup";

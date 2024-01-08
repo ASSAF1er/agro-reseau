@@ -1,16 +1,14 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 
 export const AuthContext = createContext('')
 
-export const AuthContextProvider = ({ children }) => {
-    const [connectedUser, setConnectedUser] = useState(false)
-    const usersList = [
-        {
-            email: 'john Doe',
-            password: '123456'
-        }
-    ]
-    return (
-        <AuthContext.Provider value={{ connectedUser, setConnectedUser, usersList }}>{children}</AuthContext.Provider>
-    )
+export function AuthContextProvider({ children }) {
+    const [connectedUser, setConnectedUser] = useState('')
+    useEffect(() => {
+        setConnectedUser(JSON.parse(localStorage.getItem('user')))
+        console.log(localStorage.getItem('user'))
+    }, [])
+
+    return <AuthContext.Provider value={{ connectedUser, setConnectedUser }}>{children}</AuthContext.Provider>
 }
+export default AuthContextProvider

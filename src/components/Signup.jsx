@@ -14,7 +14,9 @@ function Signup() {
     const [showConfirmPassword, setShowConfirmPassWord] = useState(false)
     const [email, setEmail] = useState('')
     const [validEmail, setValidEmail] = useState('')
-    const [name, setName] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [validPassword, setValidPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -22,6 +24,10 @@ function Signup() {
     const [profilePhoto, setProfilePhoto] = useState('')
     const [location, setLocation] = useState('')
     const [send, setSend] = useState(false)
+    const [remember, setRemember] = useState(false)
+    const [successful, setSuccessful] = useState(false)
+    const [correctInformations, setCorrectInformations] = useState(true)
+    const [errorMessage, setErrorMessage] = useState('')
     const handleAddproduct = (prod) => {
         if (prod.trim() !== '') {
             setSoldProducts([...soldProducts, prod])
@@ -35,16 +41,31 @@ function Signup() {
     const createUser = async () => {
         await axios
             .post('http://localhost:8000/api/register/', newUser)
-            .then((res) => console.log({ res }))
-            .catch((res) => console.log({ res }))
+            .then((res) => {
+                console.log({ res })
+                setSuccessful(true)
+            })
+            .catch((res) => {
+                console.log({ res })
+                setErrorMessage(res.response.data)
+                setCorrectInformations(false)
+            })
     }
     const handleCreateAccount = () => {
         setValidEmail(validateEmail(email))
         setValidPassword(validatePassword(password))
         setValidConfirmPassword(validateConfirmPassword())
 
-        //  if (validateEmail(email) && validatePassword() && validateConfirmPassword()) {
-        createUser()
+        if (
+            validateEmail(email) &&
+            validatePassword(password) &&
+            validateConfirmPassword() &&
+            lastName &&
+            firstName &&
+            userName
+        ) {
+            createUser()
+        }
     }
     const validateEmail = (email) => {
         const regex =
@@ -59,20 +80,22 @@ function Signup() {
         }
     }
     const validateConfirmPassword = () => {
-        if (password === confirmPassword) return true
+        if (validatePassword(password) && password === confirmPassword) return true
         else return false
     }
     const [newUser, setNewUser] = useState({})
     useEffect(() => {
         setNewUser({
             ...newUser,
-            username: name,
+            username: userName,
+            first_name: firstName,
+            last_name: lastName,
             email: email,
             password: password,
             adresse: '',
             type_compte: typeAccount
         })
-    }, [name, email, password])
+    }, [userName, email, password])
 
     return (
         <div className="    flex flex-row     ">
@@ -104,6 +127,27 @@ function Signup() {
                     {email && !validEmail && send && <p className="text-red-500 font-[300] ">E-mail non valide</p>}
                     {!email && !validEmail && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
                 </div>
+
+                <div className="w-full flex flex-col gap-1">
+                    <label htmlFor="name" className="text-gray-900">
+                        Nom d'utilisateur (c'est le nom que les autres utilisateurs verront)
+                    </label>
+                    <input
+                        id="name"
+                        type="text"
+                        value={userName}
+                        onChange={(e) => {
+                            setUserName(e.target.value)
+                            setSend(true)
+                        }}
+                        className={classNames(
+                            !userName && send && 'border-red-500',
+                            'border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] '
+                        )}
+                    />{' '}
+                    {!userName && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
+                </div>
+
                 <div className="w-full flex flex-col gap-1">
                     <label htmlFor="typeAccount" className="text-gray-900">
                         Type de compte
@@ -129,29 +173,49 @@ function Signup() {
                 </div>
                 <div className="w-full flex flex-col gap-1">
                     <label htmlFor="name" className="text-gray-900">
-                        Nom(s) & Prénom(s)
+                        Nom
                     </label>
                     <input
                         id="name"
                         type="text"
-                        value={name}
+                        value={firstName}
                         onChange={(e) => {
-                            setName(e.target.value)
+                            setFirstName(e.target.value)
                             setSend(true)
                         }}
                         className={classNames(
-                            !name && send && 'border-red-500',
+                            !firstName && send && 'border-red-500',
                             'border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] '
                         )}
                     />{' '}
-                    {!name && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
+                    {!firstName && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
+                </div>
+
+                <div className="w-full flex flex-col gap-1">
+                    <label htmlFor="name" className="text-gray-900">
+                        Prénom
+                    </label>
+                    <input
+                        id="name"
+                        type="text"
+                        value={lastName}
+                        onChange={(e) => {
+                            setLastName(e.target.value)
+                            setSend(true)
+                        }}
+                        className={classNames(
+                            !lastName && send && 'border-red-500',
+                            'border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] '
+                        )}
+                    />{' '}
+                    {!lastName && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
                 </div>
 
                 <div className="w-full flex flex-col gap-1">
                     <label htmlFor="pswd" className="text-gray-900">
                         Mot de passe
                     </label>
-                    <div className="flex items-center justify-center border-2 peer-focus:border-red-500">
+                    <div className="flex items-center justify-center  peer-focus:border-red-500">
                         <input
                             id="pswd"
                             type={showPassword ? 'text' : 'password'}
@@ -188,7 +252,7 @@ function Signup() {
                     <label htmlFor="confirmpswd" className="text-gray-900">
                         Confirmer mot de passe
                     </label>
-                    <div className="flex items-center justify-center border-2 peer-focus:border-red-500">
+                    <div className="flex items-center justify-center  peer-focus:border-red-500">
                         <input
                             id="pswd"
                             type={showConfirmPassword ? 'text' : 'password'}
@@ -219,9 +283,9 @@ function Signup() {
                     )}
                     {!confirmPassword && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
                 </div>
-                <div
+                {/* <div
                     className={classNames(
-                        typeAccount === 'producteur' ? 'block' : 'hidden',
+                        typeAccount === 'vendeur' ? 'block' : 'hidden',
                         'w-full flex flex-col gap-1'
                     )}
                 >
@@ -265,7 +329,7 @@ function Signup() {
                             </button>
                         ))}
                     </div>
-                </div>
+                </div> */}
                 <div className="w-full flex flex-col gap-1">
                     <label htmlFor="location" className="text-gray-900">
                         Lieu de résidence
@@ -276,7 +340,7 @@ function Signup() {
                         className="border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] "
                     />
                 </div>
-                <div className="flex flex-col     p-2">
+                {/* <div className="flex flex-col     p-2">
                     <label htmlFor="pprofilePicture" className="text-gray-900 ">
                         Photo de profil
                     </label>
@@ -306,10 +370,17 @@ function Signup() {
                             delete
                         </span>
                     </div>
-                </div>
+                </div> */}
                 <div className="w-full flex justify-between">
                     <div className="text-gray-600">
-                        <input type="checkbox" /> se souvenir de moi
+                        <input
+                            type="checkbox"
+                            checked={remember}
+                            onChange={(e) => {
+                                setRemember(e.target.checked)
+                            }}
+                        />{' '}
+                        se souvenir de moi
                     </div>
                 </div>
                 <div
@@ -324,12 +395,25 @@ function Signup() {
                         connectez-vous
                     </Link>
                 </div>
+                {!correctInformations && (
+                    <div className="bg-red-100 text-red-500 rounded-md shadow-md text-center py-[20px] ">
+                        {Object.values(errorMessage).map((item) => (
+                            <p>{item}</p>
+                        ))}
+                    </div>
+                )}
+                {successful && (
+                    <div className="flex items-center  justify-center gap-2 bg-green-200 text-green-700 font-medium rounded-md shadow-md text-center py-[20px] ">
+                        <span className="material-icons">check_circle</span>
+                        {'  '} Connexion Réussie
+                    </div>
+                )}
             </div>
             <div className=" w-[50%] fixed right-0">
                 <img src={img_page_signup} alt="" className="   h-screen object-cover" />
                 <div className="absolute left-0 top-0 w-full h-full bg-[#166534]/50 backdrop-opacity-[0.1] px-5  text-white">
                     <p className="font-bold text-[30px] pt-[20%] ">
-                        Bienvenue sur la meilleure plateforme de mise en relation des producteurs et acheteurs dans la
+                        Bienvenue sur la meilleure plateforme de mise en relation des producteurs et acheteurs dans le
                         secteur agropastoral
                     </p>
                     <p className="text-[20px] pt-[20px] ">
