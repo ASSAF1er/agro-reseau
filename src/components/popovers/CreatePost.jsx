@@ -28,10 +28,10 @@ function CreatePost({ openPopover, closePopover }) {
             ...newPost,
             description: postDescription,
 
-            //date: `${day}-${month}-${year} ${hours}:${mins}:${secs}`,
-            image: postPhoto
+            date: `${day}-${month}-${year} ${hours}:${mins}:${secs}`,
+            image: postPhoto,
             //video: postVideo,
-            //author: 'assaf',
+            author: { username: connectedUser?.username }
         })
     }, [postDescription, postPhoto, postVideo])
 

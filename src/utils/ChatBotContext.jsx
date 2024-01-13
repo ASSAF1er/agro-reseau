@@ -6,6 +6,11 @@ export const ChatBotContext = createContext('')
 
 function ChatBotContextProvider({ children }) {
     const [messagesList, setMessagesList] = useState(messages)
-    return <ChatBotContext.Provider value={{ messagesList, setMessagesList }}>{children}</ChatBotContext.Provider>
+    const [themeList, setThemeList] = useState([])
+    return (
+        <ChatBotContext.Provider value={{ messagesList, setMessagesList, themeList, setThemeList }}>
+            {children}
+        </ChatBotContext.Provider>
+    )
 }
 export default ChatBotContextProvider

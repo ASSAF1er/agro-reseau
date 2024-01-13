@@ -21,28 +21,34 @@ function Post({ post }) {
                 ' bg-white border-gray-300  border sm:rounded-md w-full shadow-sm  py-3'
             )}
         >
-            <div className="flex flex-row gap-[10px] items-center px-3">
-                <div className="rounded-full h-9 w-9 bg-black">ph</div>
-                <div className=" flex flex-col">
+            <div className="flex flex-row gap-[10px] items-center px-3 pb-1">
+                <div className="flex items-center justify-center rounded-full h-9 w-9 bg-blue-500 text-white text-center uppercase">
+                    {post.author.username.split('').slice(0, 2)}
+                </div>
+                <div className=" flex flex-col ">
                     <div className="font-bold text-[#006400] flex flex-row items-center cursor-pointer ">
-                        <Link to={`/profile/${post.name}`} className="hover:underline">
-                            {post.name}
+                        <Link to={`/profile/`} className="hover:underline">
+                            {post.author.username}
                         </Link>
                         {post.verified && <span className="material-icons pl-2 text-green-500 ">verified</span>}
                     </div>
                     <div className="text-gray-500 text-[14px] "> {post.date}</div>
                 </div>
             </div>
-            <div className="py-3 px-3">{post.description}</div>{' '}
+            <div
+                className={classNames(
+                    'py-3 px-3',
+                    !post.image &&
+                        !post.video &&
+                        'text-xl font-medium flex items-center justify-center min-h-[250px] text-gray-700 text-center bg-green-300  px-2  '
+                )}
+            >
+                {post.description}
+            </div>{' '}
             <div>
                 {post.video && <video src={post.video} controls />}
-                {!post.video && (
-                    <img
-                        src={post.image ? post.image : image_test}
-                        alt=""
-                        loading="lazy"
-                        className="w-full object-cover max-h-[400px] "
-                    />
+                {post.image && (
+                    <img src={post.image} alt="" loading="lazy" className="w-full object-cover max-h-[400px] " />
                 )}
             </div>
             <div className="flex flex-row justify-between px-3 space text-[15px]  mt-5 border-t pt-2 border-gray-300">

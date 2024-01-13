@@ -5,7 +5,7 @@ import axios from 'axios'
 function BotInputZone() {
     const [question, setQuestion] = useState('')
     const [request, setRequest] = useState('')
-    const { messagesList, setMessagesList } = useContext(ChatBotContext)
+    const { messagesList, setMessagesList, setThemeList, themeList } = useContext(ChatBotContext)
 
     useEffect(() => {
         const date_hour = new Date().getHours().toString().padStart(2, '0')
@@ -27,16 +27,28 @@ function BotInputZone() {
                 setMessagesList([
                     ...messagesList,
                     request,
-                    { id: 2, content: res.data.answer, date: `${date_hour}:${date_min}` }
+                    { emitId: 2, content: res.data.answer, date: `${date_hour}:${date_min}` }
                 ])
             })
-            .catch((res) => setMessagesList([...messagesList, request, { id: 2, content: res.message }]))
+            .catch((err) => {
+                setMessagesList([...messagesList, request, { emitId: 2, type: 'error' }])
+            })
+
+        await axios
+            .post('http://localhost:9000/agrobot/theme', request)
+            .then((res) => {
+                const date_hour = new Date().getHours().toString().padStart(2, '0')
+                const date_min = new Date().getMinutes().toString().padStart(2, '0')
+
+                setThemeList([...themeList, { content: res.data.answer, date: `${date_hour}:${date_min}` }])
+            })
+            .catch((err) => {})
     }
     const handleClick = async (e) => {
         e.preventDefault()
         setMessagesList([...messagesList, request])
-        await askOpenAI()
         setQuestion('')
+        await askOpenAI()
     }
     return (
         <form>

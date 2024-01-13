@@ -3,10 +3,21 @@ import PhotosContainer from '../components/ProfileComponents/PhotosContainer'
 import { productors } from '../utils/productorsList'
 import { useParams } from 'react-router-dom'
 import Post from '../components/Post'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { PostsData } from '../utils/PostsContext'
 import RankingProfile from '../components/ProfileComponents/RankingProfile'
+import axios from 'axios'
 function Profile() {
+    useEffect(() => {
+        axios
+            .get('http://localhost:8000/api/user/')
+            .then((res) => {
+                console.log(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    })
     document.documentElement.scrollTop = 0
     const { postsList, setPostsList } = useContext(PostsData)
     const params = useParams()

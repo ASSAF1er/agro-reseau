@@ -3,10 +3,10 @@ import { useRef, useState } from 'react'
 function ReceivedMessage({ msg }) {
     const answer = msg.content
     const [displayedText, setDisplayedText] = useState('')
-    const [index, setIndex] = useState(1000)
+    const [index, setIndex] = useState(800)
     const handledisplay = () => {
-        if (answer.length >= index + 1000) {
-            setIndex(index + 1000)
+        if (answer.length >= index + 800) {
+            setIndex(index + 800)
         } else {
             setIndex(answer.length)
         }

@@ -15,6 +15,7 @@ function Navbar() {
         setNav(!navMenu)
     }
     const [scroll, setScroll] = useState(false)
+    const [showSearchInput, setShowSearchInput] = useState(false)
     const handleNavbarColor = () => {
         if (window.scrollY > 0) {
             setScroll(true)
@@ -27,6 +28,7 @@ function Navbar() {
         localStorage.clear('user')
         return <Navigate to="/" />
     }
+
     const location = useLocation()
 
     window.addEventListener('scroll', handleNavbarColor)
@@ -68,11 +70,39 @@ function Navbar() {
                     </Link>
 
                     <div className="flex flex-row items-center gap-5 ">
-                        <Link>
-                            <div className="flex  justify-center items-center h-8 w-8 text rounded-full bg-[#ffffff] text-[#006400] hover:bg-[#fbbf24] hover:cursor-pointer">
-                                <span className="material-icons">search</span>
+                        {connectedUser && (
+                            <div
+                                className={classNames(
+                                    showSearchInput
+                                        ? '    bg-blue-100   '
+                                        : 'bg-transparent delay-[900ms] !pl-1 transition-all ease-in-out duration-[400ms] transform',
+                                    'flex items-center rounded-full   pr-1 py-[2px] pl-3 '
+                                )}
+                            >
+                                <input
+                                    type="text"
+                                    placeholder="Rechercher..."
+                                    className={classNames(
+                                        showSearchInput ? 'w-60 ' : 'w-0',
+                                        ' mx-2 text-gray-600 bg-blue-100 rounded-md border-none focus:outline-0 text-[17px] transition-all ease-in-out duration-1000 transform'
+                                    )}
+                                />
+
+                                <div className="flex  justify-center items-center h-8 w-8 text rounded-full bg-[#ffffff] text-[#006400] hover:bg-[#fbbf24] hover:cursor-pointer">
+                                    <span
+                                        onClick={() => {
+                                            setShowSearchInput(!showSearchInput)
+                                        }}
+                                        className={classNames(
+                                            showSearchInput ? 'rotate-[-280deg]  ' : '',
+                                            'material-icons ease-in-out duration-1000'
+                                        )}
+                                    >
+                                        search
+                                    </span>
+                                </div>
                             </div>
-                        </Link>
+                        )}
 
                         {connectedUser ? (
                             <div className="group/profile">
@@ -83,12 +113,18 @@ function Navbar() {
                                     </div>
                                 </div>
                                 <ul className="absolute invisible group-hover/profile:visible right-[50px] py-2  text-[16px]  bg-gray-100 rounded-md text-gray-500 shadow-xl">
-                                    <li className="group/voir-profil cursor-pointer flex items-center px-4 hover:text-gray-400 hover:bg-green-100">
+                                    <li className="group/voir-profil cursor-pointer  hover:text-gray-400 hover:bg-green-100">
                                         {' '}
-                                        <span className="material-icons group-hover/voir-profil:text-gray-700 ">
-                                            person
-                                        </span>{' '}
-                                        Profil
+                                        <Link
+                                            to={`/profile/${connectedUser.username}`}
+                                            className="flex items-center px-4"
+                                        >
+                                            {' '}
+                                            <span className="material-icons group-hover/voir-profil:text-gray-700 ">
+                                                person
+                                            </span>{' '}
+                                            Profil
+                                        </Link>
                                     </li>
                                     <li
                                         onClick={Logout}
@@ -103,18 +139,36 @@ function Navbar() {
                                 </ul>
                             </div>
                         ) : (
-                            <Link to="/login">
-                                {' '}
-                                <div
-                                    className={classNames(
-                                        scroll ? '!bg-[#006400] !text-white hover:!bg-[#178240]' : '',
-                                        'bg-white text-[#006400] hover:bg-yellow-400 rounded-[6px] !text-[17px] font-bold px-3 py-1 cursor-pointer normal-case '
-                                    )}
-                                >
+                            <>
+                                <Link to="/signup">
                                     {' '}
-                                    Se connecter
-                                </div>
-                            </Link>
+                                    <div
+                                        className={classNames(
+                                            scroll
+                                                ? '!bg-white !text-[#006400] border !border-[#006400] hover:!bg-yellow-400 '
+                                                : '',
+                                            'bg-[#006400] text-white border border-white hover:bg-yellow-400 hover:text-[#006400] rounded-[6px] !text-[17px] font-bold px-3 py-1 cursor-pointer normal-case '
+                                        )}
+                                    >
+                                        {' '}
+                                        Créer un compte
+                                    </div>
+                                </Link>
+                                <Link to="/login">
+                                    {' '}
+                                    <div
+                                        className={classNames(
+                                            scroll
+                                                ? '!bg-[#006400] !text-white  border hover:!bg-yellow-400 !border-[#006400] hover:!text-[#006400]'
+                                                : '',
+                                            'bg-white text-[#006400] border border-white hover:bg-yellow-400 rounded-[6px] !text-[17px] font-bold px-3 py-1 cursor-pointer normal-case '
+                                        )}
+                                    >
+                                        {' '}
+                                        Se connecter
+                                    </div>
+                                </Link>
+                            </>
                         )}
                     </div>
                 </div>

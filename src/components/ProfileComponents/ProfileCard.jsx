@@ -23,10 +23,19 @@ function ProfileCard({ account }) {
                         <button className="px-4 py-1 bg-green-100 rounded-md text-green-800">{item}</button>
                     ))}
                 </div>
-                <div className="absolute bottom-3 right-5 flex ">
-                    <div className="px-5 py-[8px] rounded-[6px] bg-[#006400] hover:bg-[#005000] cursor-pointer text-white ">
-                        <Link to={`/1/messages/${account.name}`}> Envoyer un message</Link>
-                    </div>
+                <div className="absolute bottom-3 right-5 flex gap-3">
+                    <Link
+                        to={`/profile/edit`}
+                        className="flex gap-2 items-center px-5 py-[8px] rounded-[6px] bg-[#006400] hover:bg-[#005000] cursor-pointer text-white "
+                    >
+                        <span className="material-icons">edit</span> Modifier mon profil
+                    </Link>
+                    <Link
+                        to={`/1/messages/${account.name}`}
+                        className="flex gap-2 items-center px-5 py-[8px] rounded-[6px] bg-[#006400] hover:bg-[#005000] cursor-pointer text-white "
+                    >
+                        Envoyer un Message
+                    </Link>
                 </div>
             </div>
         </div>
