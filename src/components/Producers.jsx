@@ -7,7 +7,7 @@ function Producers() {
     const { producersList, search, searchClicked } = useContext(ProducersData)
     const [tempProducersList, setTempProducersList] = useState()
     useEffect(() => {
-        setTempProducersList(producersList.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())))
+        setTempProducersList(producersList.filter((item) => item.username.toLowerCase().includes(search.toLowerCase())))
     }, [search, producersList])
 
     const produitsRecherches = [
@@ -118,32 +118,33 @@ function Card({ productor }) {
             </div>
             <div className=" flex flex-col justify-center px-2 pt-2">
                 <Link
-                    to={`/profile/${productor.name}`}
+                    to={`/profile/${productor.id}`}
                     className="text-[#006400] font-bold text-[17px] text-center hover:underline  "
                 >
-                    {productor.name}
+                    {productor.username}
                 </Link>
                 <div className="text-gray-600  text-[13px] text-center">
-                    <span className="material-icons-outlined text-[15px] font-bold">place</span> {productor.location}
+                    <span className="material-icons-outlined text-[15px] font-bold">place</span> {productor.ville}
+                    Cameroun
                 </div>
             </div>
             <div className="flex flex-row items-center justify-center gap-4 my-2">
-                <div className="text-[#006400] text-[18px]">
+                {/* <div className="text-[#006400] text-[18px]">
                     {stars.map((star) => (
                         <>{star}</>
                     ))}
                 </div>
-                <div>
+                 <div>
                     <p className="text-center font-bold text-[#006400] text-[18px]">{parseFloat(productor.ranking)}</p>
                     <p className="text-[12px]">476 avis</p>
-                </div>
+                </div> */}
             </div>
             <div className="px-2 text-[15px] flex flex-row flex-wrap gap-2 justify-center">
-                {productor.products.split(',').map((item) => (
+                {/* {productor.products.split(',').map((item) => (
                     <div className="rounded-full py-[2px] px-3  text-[#006400] border border-[#006400] hover:bg-[#006400] hover:text-white">
                         {item}
                     </div>
-                ))}
+                ))} */}
             </div>
         </div>
     )

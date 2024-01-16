@@ -27,7 +27,7 @@ function Post({ post }) {
                 </div>
                 <div className=" flex flex-col ">
                     <div className="font-bold text-[#006400] flex flex-row items-center cursor-pointer ">
-                        <Link to={`/profile/`} className="hover:underline">
+                        <Link to={`/profile/${post.author.id}`} className="hover:underline">
                             {post.author.username}
                         </Link>
                         {post.verified && <span className="material-icons pl-2 text-green-500 ">verified</span>}

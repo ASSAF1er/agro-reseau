@@ -1,9 +1,18 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { productors } from './productorsList'
+import axios from 'axios'
 export const ProducersData = createContext('')
 
 export const ProducersDataProvider = ({ children }) => {
-    const [producersList, setProducersList] = useState(productors)
+    useEffect(() => {
+        axios
+            .get('http://localhost:8000/api/list/')
+            .then((res) => {
+                setProducersList(res.data)
+            })
+            .then((err) => console.log(err))
+    }, [])
+    const [producersList, setProducersList] = useState([])
     const [searchClicked, setSearchClicked] = useState(false)
     const [search, setSearch] = useState('')
     return (

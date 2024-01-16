@@ -2,7 +2,7 @@ import { TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import img_page_signup from '../assets/img_page_signup.jpg'
 import classNames from 'classnames'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import default_profile from '../assets/default_profile.jpg'
 import axios from 'axios'
 function Signup() {
@@ -44,14 +44,18 @@ function Signup() {
             .then((res) => {
                 console.log({ res })
                 setSuccessful(true)
+                setTimeout(() => {
+                    return <Navigate to="/" />
+                }, 2000)
             })
             .catch((res) => {
                 console.log({ res })
                 setErrorMessage(res.response.data)
-                setCorrectInformations(false)
+                setSuccessful(false)
             })
     }
     const handleCreateAccount = () => {
+        setSend(true)
         setValidEmail(validateEmail(email))
         setValidPassword(validatePassword(password))
         setValidConfirmPassword(validateConfirmPassword())
@@ -118,14 +122,16 @@ function Signup() {
                         onChange={(e) => {
                             setEmail(e.target.value)
                             setValidEmail(true)
+                            setErrorMessage(false)
                         }}
                         className={classNames(
-                            !validEmail && send && 'border-red-500',
+                            (!validEmail || errorMessage.email) && send && 'border-red-500',
                             'border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] '
                         )}
                     />
                     {email && !validEmail && send && <p className="text-red-500 font-[300] ">E-mail non valide</p>}
                     {!email && !validEmail && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
+                    {errorMessage.email && send && <p className="text-red-500 font-[300] ">{errorMessage.email}</p>}
                 </div>
 
                 <div className="w-full flex flex-col gap-1">
@@ -138,14 +144,17 @@ function Signup() {
                         value={userName}
                         onChange={(e) => {
                             setUserName(e.target.value)
-                            setSend(true)
+                            setErrorMessage(false)
                         }}
                         className={classNames(
-                            !userName && send && 'border-red-500',
+                            (errorMessage.username || !userName) && send && 'border-red-500',
                             'border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] '
                         )}
                     />{' '}
                     {!userName && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
+                    {errorMessage.username && send && (
+                        <p className="text-red-500 font-[300] ">{errorMessage.username}</p>
+                    )}
                 </div>
 
                 <div className="w-full flex flex-col gap-1">
@@ -181,7 +190,6 @@ function Signup() {
                         value={firstName}
                         onChange={(e) => {
                             setFirstName(e.target.value)
-                            setSend(true)
                         }}
                         className={classNames(
                             !firstName && send && 'border-red-500',
@@ -201,7 +209,6 @@ function Signup() {
                         value={lastName}
                         onChange={(e) => {
                             setLastName(e.target.value)
-                            setSend(true)
                         }}
                         className={classNames(
                             !lastName && send && 'border-red-500',
@@ -223,7 +230,6 @@ function Signup() {
                             onChange={(e) => {
                                 setPassword(e.target.value)
                                 setValidPassword(true)
-                                setSend(true)
                             }}
                             className={classNames(
                                 !validPassword && send && 'border-red-500',
@@ -260,7 +266,6 @@ function Signup() {
                             onChange={(e) => {
                                 setConfirmPassword(e.target.value)
                                 setValidConfirmPassword(true)
-                                setSend(true)
                             }}
                             className={classNames(
                                 (!validConfirmPassword || !confirmPassword) && send && 'border-red-500',
@@ -383,6 +388,20 @@ function Signup() {
                         se souvenir de moi
                     </div>
                 </div>
+                {successful && (
+                    <div className="flex items-center  justify-center gap-2 bg-green-200 text-green-700 font-medium rounded-md shadow-md text-center py-[20px] ">
+                        <span className="material-icons">check_circle</span>
+                        {'  '} Création Réussie
+                    </div>
+                )}
+                {errorMessage && (
+                    <div className="bg-red-100 text-red-500 rounded-md shadow-md text-center py-[20px] ">
+                        {/* {Object.values(errorMessage).map((item) => (
+                            <p>{item}</p>
+                        ))} */}
+                        Une erreur s'est produite. Vérifiez vos données
+                    </div>
+                )}
                 <div
                     onClick={handleCreateAccount}
                     className="text-center bg-[#006400] hover:bg-green-600 py-3  w-full rounded-[5px] text-white hover:shadow-xl cursor-pointer"
@@ -395,19 +414,6 @@ function Signup() {
                         connectez-vous
                     </Link>
                 </div>
-                {!correctInformations && (
-                    <div className="bg-red-100 text-red-500 rounded-md shadow-md text-center py-[20px] ">
-                        {Object.values(errorMessage).map((item) => (
-                            <p>{item}</p>
-                        ))}
-                    </div>
-                )}
-                {successful && (
-                    <div className="flex items-center  justify-center gap-2 bg-green-200 text-green-700 font-medium rounded-md shadow-md text-center py-[20px] ">
-                        <span className="material-icons">check_circle</span>
-                        {'  '} Connexion Réussie
-                    </div>
-                )}
             </div>
             <div className=" w-[50%] fixed right-0">
                 <img src={img_page_signup} alt="" className="   h-screen object-cover" />

@@ -116,7 +116,7 @@ function Navbar() {
                                     <li className="group/voir-profil cursor-pointer  hover:text-gray-400 hover:bg-green-100">
                                         {' '}
                                         <Link
-                                            to={`/profile/${connectedUser.username}`}
+                                            to={`/profile/${connectedUser.userId}`}
                                             className="flex items-center px-4"
                                         >
                                             {' '}

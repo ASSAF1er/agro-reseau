@@ -4,7 +4,7 @@ import axios from 'axios'
 export const PostsData = createContext('')
 
 export const PostsDataProvider = ({ children }) => {
-    const getPosts = async () => {
+    useEffect(() => {
         axios
             .get('http://localhost:8000/api_poste/list/')
             .then((res) => {
@@ -14,9 +14,6 @@ export const PostsDataProvider = ({ children }) => {
             .catch((err) => {
                 console.log(err)
             })
-    }
-    useEffect(() => {
-        getPosts()
     }, [])
     const [postsList, setPostsList] = useState([])
     return <PostsData.Provider value={{ postsList, setPostsList }}>{children}</PostsData.Provider>

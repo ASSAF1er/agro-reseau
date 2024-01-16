@@ -28,7 +28,7 @@ function CreatePost({ openPopover, closePopover }) {
             ...newPost,
             description: postDescription,
 
-            date: `${day}-${month}-${year} ${hours}:${mins}:${secs}`,
+            //date: `${day}-${month}-${year} ${hours}:${mins}:${secs}`,
             image: postPhoto,
             //video: postVideo,
             author: { username: connectedUser?.username }
@@ -40,7 +40,9 @@ function CreatePost({ openPopover, closePopover }) {
             .post('http://localhost:8000/api_poste/create/', newPost, {
                 headers: { Authorization: `token ${connectedUser.token}`, 'content-type': 'multipart/form-data' }
             })
-            .then(() => {})
+            .then((res) => {
+                setPostsList([res.data, ...postsList])
+            })
             .catch((error) => console.log(error))
     }
 

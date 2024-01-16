@@ -1,16 +1,34 @@
 import default_pofile from '../assets/default_profile.jpg'
 import classNames from 'classnames'
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 function EditProfile() {
-    const [userName, setUserName] = useState('')
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8000/api/search/${params.id}/`)
+            .then((res) => {
+                console.log(res.data)
+                setUserName(res.data.username)
+                setEmail(res.data.email)
+                setFirstName(res.data.first_name)
+                setLastName(res.data.last_name)
+                setTown(res.data.ville)
+                setDescription(res.data.description)
+                setTypeAccount(res.data.type_compte)
+            })
+            .catch((err) => console.log(err))
+    }, [])
+    const [account, setAccount] = useState({})
+    const [userName, setUserName] = useState(account.username)
     const [send, setSend] = useState(false)
-    const [description, setDescription] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [town, setTown] = useState('')
-    const [email, setEmail] = useState('')
-    const [country, setCountry] = useState('')
+    const [description, setDescription] = useState(account.description)
+    const [firstName, setFirstName] = useState(account.first_name)
+    const [lastName, setLastName] = useState(account.last_name)
+    const [town, setTown] = useState(account.ville)
+    const [email, setEmail] = useState(account.email)
+    const [country, setCountry] = useState('Cameroon')
     const [facebookURL, setFacebookURL] = useState('')
     const [website, setWebsite] = useState('')
     const [validEmail, setValidEmail] = useState(true)
@@ -18,6 +36,7 @@ function EditProfile() {
     const [validTypeAccount, setValidTypeAccount] = useState('')
     const [product, setProduct] = useState()
     const [soldProducts, setSoldProducts] = useState([])
+    const params = useParams()
 
     const handleAddproduct = (prod) => {
         if (prod.trim() !== '') {
@@ -122,6 +141,9 @@ function EditProfile() {
                             <label htmlFor="name" className="text-gray-900">
                                 Description (breve decription de qui vous etes et ce que vous faites)
                             </label>
+                            {!description && send && (
+                                <span className="text-red-500 font-[300] ">champ obligatoire</span>
+                            )}
                             <textarea
                                 id="description"
                                 type="text"
@@ -137,9 +159,8 @@ function EditProfile() {
                                 )}
                             />{' '}
                             <span className="text-right text-gray-700">
-                                {200 - description.length} caractères restants{' '}
+                                {200 - (description ? description.length : 0)} caractères restants{' '}
                             </span>
-                            {!description && send && <p className="text-red-500 font-[300] ">champ obligatoire</p>}
                         </div>
                     </div>
                 </div>
@@ -230,7 +251,7 @@ function EditProfile() {
                         <input
                             id="name"
                             type="text"
-                            value={userName}
+                            value={website}
                             onChange={(e) => {
                                 setUserName(e.target.value)
                                 setSend(true)
@@ -248,7 +269,7 @@ function EditProfile() {
                         <input
                             id="name"
                             type="text"
-                            value={userName}
+                            value={facebookURL}
                             onChange={(e) => {
                                 setUserName(e.target.value)
                                 setSend(true)

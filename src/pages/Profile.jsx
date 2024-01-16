@@ -3,30 +3,34 @@ import PhotosContainer from '../components/ProfileComponents/PhotosContainer'
 import { productors } from '../utils/productorsList'
 import { useParams } from 'react-router-dom'
 import Post from '../components/Post'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { PostsData } from '../utils/PostsContext'
 import RankingProfile from '../components/ProfileComponents/RankingProfile'
 import axios from 'axios'
 function Profile() {
+    const params = useParams()
     useEffect(() => {
         axios
-            .get('http://localhost:8000/api/user/')
+            .get(`http://localhost:8000/api/search/${params.id}/`)
             .then((res) => {
+                setAccount(res.data)
                 console.log(res.data)
             })
             .catch((err) => {
                 console.log(err)
             })
-    })
+        console.log(postsList)
+    }, [params])
     document.documentElement.scrollTop = 0
     const { postsList, setPostsList } = useContext(PostsData)
-    const params = useParams()
-    let account = productors.filter((acc) => acc.name === params.id)[0]
-    let filteredPosts = postsList.filter((item) => item.name === params.id)
+
+    const [account, setAccount] = useState({})
+    const filteredPosts = postsList.filter((item) => item.author.id.toString() === params.id.toString())
+
     return (
         <div className=" flex flex-col gap-[20px] pt-[100px] pb-[50px] items-center   bg-[#ceffce] ">
             <div className="w-[90%] flex gap-[20px] ">
-                <ProfileCard account={account} />
+                <ProfileCard acc={account} />
                 <RankingProfile />
             </div>
             <div className="w-[90%] flex gap-[20px] ">
@@ -42,10 +46,10 @@ function Profile() {
                     </div>
                     <div className="flex flex-col w-full gap-[10px] pt-[10px] ">
                         {filteredPosts.length !== 0 ? (
-                            filteredPosts.map((item) => item.name === params.id && <Post post={item} />)
+                            filteredPosts.map((item) => <Post post={item} />)
                         ) : (
                             <div className="rounded-[10px] px-[20px] py-[10px] bg-gray-100 text-center text-gray-500">
-                                {account.name + ' '}n'a aucune publication pour le moment
+                                {account.username + ' '}n'a aucune publication pour le moment
                             </div>
                         )}
                     </div>
