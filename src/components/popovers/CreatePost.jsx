@@ -2,20 +2,30 @@ import { useEffect, useState } from 'react'
 import default_profile from '../../assets/default_profile.jpg'
 import Dialog from '@mui/material/Dialog'
 import { useContext } from 'react'
+import axios from 'axios'
 
 import { AuthContext } from '../../utils/AuthContext'
 import { PostsData } from '../../utils/PostsContext'
 import classNames from 'classnames'
-import axios from 'axios'
+
 function CreatePost({ openPopover, closePopover }) {
     const { postsList, setPostsList } = useContext(PostsData)
     const { connectedUser } = useContext(AuthContext)
     const [postDescription, setPostDescription] = useState('')
+    const [sentImage, setSentImage] = useState()
     const [postPhoto, setPostPhoto] = useState('')
     const [showImageSelector, setShowImageSelector] = useState(false)
     const [postVideo, setPostVideo] = useState('')
     const [showVideoSelector, setShowVideoSelector] = useState(false)
     const [newPost, setNewPost] = useState({})
+    useEffect(() => {
+        fetch(postPhoto)
+            .then((response) => response.blob())
+            .then((blob) => {
+                const { filename, extension } = extractFileInfo(postPhoto)
+                setSentImage(new File([blob], 'file.png', { type: `image/png` }))
+            })
+    }, [postPhoto])
 
     useEffect(() => {
         const hours = new Date().getHours()
@@ -25,20 +35,33 @@ function CreatePost({ openPopover, closePopover }) {
         const month = new Date().getMonth() + 1
         const year = new Date().getFullYear()
         setNewPost({
-            ...newPost,
             description: postDescription,
-
-            //date: `${day}-${month}-${year} ${hours}:${mins}:${secs}`,
-            image: postPhoto,
+            image: sentImage,
+            like: 0,
             //video: postVideo,
             author: { username: connectedUser?.username }
         })
-    }, [postDescription, postPhoto, postVideo])
+    }, [postDescription, sentImage, postVideo])
+
+    // Fonction pour extraire le nom et l'extension du fichier à partir de l'URL Blob
+    const extractFileInfo = (blobUrl) => {
+        const regex = /^blob:.+\/(.+)$/ // Regex pour extraire l'extension du blob
+        const match = blobUrl.match(regex)
+        if (match) {
+            const extension = match[1]
+            const filename = `file.${extension}` // Nom du fichier par défaut (vous pouvez le personnaliser)
+            return { filename, extension }
+        }
+        return { filename: 'file', extension: 'bin' } // Valeurs par défaut si l'extraction échoue
+    }
 
     const addPost = (newPost) => {
         axios
             .post('http://localhost:8000/api_poste/create/', newPost, {
-                headers: { Authorization: `token ${connectedUser.token}`, 'content-type': 'multipart/form-data' }
+                headers: {
+                    Authorization: `token ${connectedUser.token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
             })
             .then((res) => {
                 setPostsList([res.data, ...postsList])
@@ -46,8 +69,10 @@ function CreatePost({ openPopover, closePopover }) {
             .catch((error) => console.log(error))
     }
 
-    const handleAddPost = () => {
+    const handleAddPost = (e) => {
+        e.preventDefault()
         addPost(newPost)
+        console.log(postPhoto)
         setPostsList([newPost, ...postsList])
         setPostDescription('')
         setPostPhoto('')
@@ -71,12 +96,12 @@ function CreatePost({ openPopover, closePopover }) {
                             </span>
                         </div>
                     </div>
-                    <form action="" enctype="multipart/form-data">
+                    <form>
                         <div className="py-4 px-6 ">
                             <div className="flex gap-2 mb-2">
                                 <img src={default_profile} alt="" className="h-12 object-cover w-12 rounded-full " />
                                 <div>
-                                    <p className="font-bold">Beral ASSONFACK</p>{' '}
+                                    <p className="font-bold">{connectedUser.username}</p>{' '}
                                     <p className="text-gray-700">vendeur</p>
                                 </div>
                             </div>
@@ -188,12 +213,13 @@ function CreatePost({ openPopover, closePopover }) {
                                     <span className="material-icons-outlined">video_call</span> vidéo
                                 </div>
                             </div>
-                            <div
-                                onClick={handleAddPost}
+                            <button
+                                type="submit"
+                                onClick={(e) => handleAddPost(e)}
                                 className="w-full cursor-pointer flex justify-center py-2 text-[17px] text-white font-bold bg-[#006400] hover:bg-[#178240] rounded-lg "
                             >
                                 Publier
-                            </div>
+                            </button>
                         </div>
                     </form>
                 </div>

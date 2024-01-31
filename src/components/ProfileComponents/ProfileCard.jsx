@@ -40,7 +40,7 @@ function ProfileCard({ acc }) {
                         </Link>
                     ) : (
                         <Link
-                            to={`/1/messages/${account.username}`}
+                            to={`/1/chat/${connectedUser.userId}/${account.id}/`}
                             className="flex gap-2 items-center px-5 py-[8px] rounded-[6px] bg-[#006400] hover:bg-[#005000] cursor-pointer text-white "
                         >
                             Envoyer un Message

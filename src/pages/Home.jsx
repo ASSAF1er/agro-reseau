@@ -5,7 +5,6 @@ import RecentPosts from '../components/RecentPosts'
 import NearbyProductors from '../components/NearbyProductors'
 import PasserAnnonce from '../components/PasserAnnonce'
 
-
 function Home() {
     document.documentElement.scrollTop = 0
     return (
@@ -14,12 +13,17 @@ function Home() {
 
             {/* <Categories /> */}
             <PasserAnnonce />
-            <p className="text-[30px] text-center bg-gray-200 text-[#333333] font-bold mt-[20px] mb-[10px] ">
+            <p className="text-[18px]  bg-gray-200 text-[#333333] font-medium mt-[20px] mb-[10px] ">
                 Annonces récentes
             </p>
+            <div className="flex  w-full justify-between px-5 flex-wrap mb-3 ">
+                <div className="bg-white shadow-md rounded-md w-[300px]">gauche</div>
+                <RecentPosts initial_index={0} end_index={2} />
+                <div className="bg-white shadow-md rounded-md w-[300px]">droite</div>
+            </div>
 
-            <RecentPosts initial_index={0} end_index={2} />
-            <NearbyProductors />
+            {/* <NearbyProductors /> */}
+            <div classNames="w-full"></div>
             <RecentPosts initial_index={2} end_index={10} />
         </div>
     )

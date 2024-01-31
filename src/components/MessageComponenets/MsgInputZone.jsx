@@ -1,8 +1,28 @@
-import { useState } from 'react'
-function MsgInputZone() {
-    const [message, setMessage] = useState('')
-    const handleClick = (event) => {
+import { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../../utils/AuthContext'
+import axios from 'axios'
+function MsgInputZone({ messages, setMessages, receiver }) {
+    const [message, setMessage] = useState({})
+    const [newMessage, setNewMessage] = useState('')
+    const { connectedUser } = useContext(AuthContext)
+
+    useEffect(() => {
+        setMessage({
+            message: newMessage,
+            user: connectedUser.userId,
+            sender: connectedUser.userId,
+            receiver: receiver.id
+        })
+    }, [newMessage])
+    const handleSubmit = (event) => {
         event.preventDefault()
+        axios
+            .post(`http://localhost:8000/api_message/send-message/`, message)
+            .then((res) => {})
+            .catch((err) => console.log(err))
+
+        setMessages([...messages, message])
+        setNewMessage('')
     }
     return (
         <form className="w-full">
@@ -11,12 +31,12 @@ function MsgInputZone() {
                     <input
                         type="text"
                         placeholder="Nouveau Message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
                         className="focus:outline-none w-full h-[40px] text-[18px] text-gray-800 "
                     />
                 </div>
-                <button type="submit" onClick={(e) => handleClick(e)}>
+                <button type="submit" onClick={(e) => handleSubmit(e)}>
                     <span className="material-icons bg-[#006400] hover:bg-[#006000] rounded-full shadow-xl text-white p-3 cursor-pointer">
                         send
                     </span>

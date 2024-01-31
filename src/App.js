@@ -24,6 +24,7 @@ function App() {
       <PostsDataProvider>
       <ChatBotContextProvider>
       <ProducersDataProvider>
+        
       <Routes>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/login" element={<Connexion/>}/>
@@ -38,10 +39,12 @@ function App() {
         </Route>
         <Route path="/1" element={<LayoutMessages/>}>
           <Route path="/1/chatbot" element={<Chatbot/>}/>
-          <Route path="/1/messages/:name" element={<Messages/>}/>
+          <Route path="/1/messages/:id" element={<Messages/>}/>
+          <Route path="/1/chat/:senderId/:receiverId" element={<Messages/>}/>
         </Route>
           
       </Routes>
+      
       </ProducersDataProvider>
       </ChatBotContextProvider>
       </PostsDataProvider>

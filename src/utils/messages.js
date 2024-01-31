@@ -2,7 +2,7 @@ export  const messages=[
     {emitId:2,
     emit:'assaf',
     dest:'sobajo',
-    content:'Salut,je suis Arobot,je répond à toutes vos questions en lien avec l\'agriculture '}
+    content:'Salut,je suis Agrobot,je répond à toutes vos questions en lien avec l\'agriculture '}
 //     {emitId:1,
 //         emit:'assaf',
 //     dest:'sobajo',

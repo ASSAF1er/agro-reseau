@@ -19,14 +19,17 @@ function Navbar() {
     const handleNavbarColor = () => {
         if (window.scrollY > 0) {
             setScroll(true)
+            console.log(connectedUser)
         } else {
             setScroll(false)
         }
     }
     const Logout = () => {
-        setConnectedUser('')
+        setConnectedUser(false)
         localStorage.clear('user')
-        return <Navigate to="/" />
+        setTimeout(() => {
+            return <Navigate to="/" />
+        }, 2000)
     }
 
     const location = useLocation()
@@ -49,7 +52,7 @@ function Navbar() {
                         <NavLink item={item} />
                     ))}
 
-                    <Link to="/1/messages/null">
+                    <Link to={connectedUser ? `/1/messages/${connectedUser.userId}` : '/login'}>
                         <div
                             className={classNames(
                                 'messages' === location.pathname.split('/')[2]
@@ -108,7 +111,7 @@ function Navbar() {
                             <div className="group/profile">
                                 <div className="group/profile-photo relative border-2 rounded-full border-[#a3e635] p-[2px] cursor-pointer hover:bg ">
                                     <div className=" h-9 w-9 rounded-full text-[18px] text-center text-white uppercase bg-blue-500 group-hover/profile-photo:bg-blue-400 z-1">
-                                        {connectedUser && connectedUser.username.split('').slice(0, 2)}
+                                        {connectedUser && connectedUser.username?.split('').slice(0, 2)}
                                         {/* <div className=" absolute top-0 right-0 h-2 w-2 rounded-full bg-[#a3e635] z-2 "></div> */}
                                     </div>
                                 </div>

@@ -1,6 +1,7 @@
 import default_profile from '../assets/default_profile.jpg'
 import { useContext, useEffect, useState } from 'react'
 import { ProducersData } from '../utils/ProducersContext '
+import { AuthContext } from '../utils/AuthContext'
 
 import { Link } from 'react-router-dom'
 function Producers() {
@@ -92,6 +93,7 @@ function Producers() {
 export default Producers
 
 function Card({ productor }) {
+    const { connectedUser } = useContext(AuthContext)
     const rank = productor.ranking
     const stars = []
     for (var i = 0; i < 5; i++) {
@@ -118,7 +120,7 @@ function Card({ productor }) {
             </div>
             <div className=" flex flex-col justify-center px-2 pt-2">
                 <Link
-                    to={`/profile/${productor.id}`}
+                    to={connectedUser ? `/profile/${productor.id}` : '/login'}
                     className="text-[#006400] font-bold text-[17px] text-center hover:underline  "
                 >
                     {productor.username}

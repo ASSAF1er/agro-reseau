@@ -22,7 +22,7 @@ function Signup() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [validConfirmPassword, setValidConfirmPassword] = useState('')
     const [profilePhoto, setProfilePhoto] = useState('')
-    const [location, setLocation] = useState('')
+    const [town, setTown] = useState('')
     const [send, setSend] = useState(false)
     const [remember, setRemember] = useState(false)
     const [successful, setSuccessful] = useState(false)
@@ -47,6 +47,7 @@ function Signup() {
                 setTimeout(() => {
                     return <Navigate to="/" />
                 }, 2000)
+                setErrorMessage(false)
             })
             .catch((res) => {
                 console.log({ res })
@@ -91,15 +92,274 @@ function Signup() {
     useEffect(() => {
         setNewUser({
             ...newUser,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
             username: userName,
             first_name: firstName,
             last_name: lastName,
             email: email,
             password: password,
-            adresse: '',
+            ville: town,
             type_compte: typeAccount
         })
-    }, [userName, email, password])
+    }, [userName, firstName, lastName, email, password, town, typeAccount])
 
     return (
         <div className="    flex flex-row     ">
@@ -340,7 +600,9 @@ function Signup() {
                         Lieu de résidence
                     </label>
                     <input
-                        id="location"
+                        id="town"
+                        value={town}
+                        onChange={(e) => setTown(e.target.value)}
                         type="text"
                         className="border border-gray-400 w-full rounded-[4px] py-2 px-2 font-[300] focus:outline-[#166534] hover:border-[#166534] "
                     />

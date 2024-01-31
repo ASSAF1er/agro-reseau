@@ -1,21 +1,34 @@
 import default_profile from '../assets/default_profile.jpg'
 import CreatePost from './popovers/CreatePost'
+import { useContext } from 'react'
+import { AuthContext } from '../utils/AuthContext'
 import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 function PasserAnnonce() {
+    const { connectedUser } = useContext(AuthContext)
     const [showPopover, setShowPopover] = useState(false)
-    const closePopover = () => setShowPopover(!showPopover)
+    const closePopover = () => {
+        if (!connectedUser) {
+            return <Navigate to="/" />
+        } else {
+            setShowPopover(!showPopover)
+        }
+    }
     return (
         <div className="flex sm:w-[40%] w-[90%] mt-[50px] py-3 shadow-md px-5 flex-col justify-center items-center bg-white rounded-md">
             <div className="flex items-center gap-2 justify-center w-full">
                 <img src={default_profile} alt="" className="h-12 object-cover w-12 rounded-full " />
 
                 <div className="w-full ">
-                    <input
-                        type="text"
-                        className="bg-gray-200 h-10 text-gray-700 rounded-full  w-full px-4 focus:outline-none"
-                        placeholder="description de votre annonce..."
-                        onClick={closePopover}
-                    />
+                    <Link to={!connectedUser && '/login'}>
+                        <input
+                            type="text"
+                            className="bg-gray-200 h-10 text-gray-700 rounded-full  w-full px-4 focus:outline-none"
+                            placeholder="description de votre annonce..."
+                            onClick={closePopover}
+                        />
+                    </Link>
                 </div>
             </div>
             <div className="flex justify-around w-full pt-4 mt-4 border-t border-gray-300">

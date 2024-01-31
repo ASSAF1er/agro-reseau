@@ -12,7 +12,7 @@ function Hero() {
         setTimeout((setDisplay(false), 15000))
     }, [])
     return (
-        <div className=" relative  flex h-screen items-center bg-[#006400] overflow-hidden ">
+        <div className=" relative  flex gap-[100px] h-screen items-center bg-[#006400] overflow-hidden ">
             {connectedUser && (
                 <div
                     className={classNames(
@@ -23,7 +23,7 @@ function Hero() {
                     Heureux de te revoir, {connectedUser.username} 🎉
                 </div>
             )}
-            <div className=" w-[80%] sm:w-[90%] md:w-[55%] mx-[10%] sm:mx-[5%] md:mr-0">
+            <div className="  w-[80%] sm:w-[90%] md:w-[55%] mx-[10%] sm:mx-[5%] md:mr-0">
                 <div className="text-[30px]  sm:text-[40px] md:text-[50px]  text-[#ffffff] sm:leading-[40px] md:leading-[50px] leading-[30px] font-bold">
                     Les producteurs locaux près de chez vous pour des produits
                     <Typed

@@ -73,14 +73,9 @@ function Connexion() {
             })
     }
     const storeInLocalStorage = (response) => {
-        localStorage.setItem(
-            'user',
-            JSON.stringify({
-                userId: response.user_info.id,
-                token: response.token,
-                username: response.user_info.username
-            })
-        )
+        localStorage.setItem('userId', response.user_info.id)
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('username', response.user_info.username)
     }
 
     return (

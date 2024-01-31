@@ -59,9 +59,13 @@ function Messages({ messages }) {
         <div className="flex z-[2] flex-col max-h-[80%] overflow-y-scroll px-3 py-4">
             {messages?.map(
                 (message) =>
-                    (message.emitId === 1 && <EmitedMessage key={message.body} msg={message} />) ||
+                    (message.emitId === 1 && (
+                        <EmitedMessage key={message.body} msg={message.content} date={message.date} />
+                    )) ||
                     (message.emitId === 2 && message.type === 'error' && <ErrorMessage key={message.content} />) ||
-                    (message.emitId === 2 && <ReceivedMessage key={message.body} msg={message} />)
+                    (message.emitId === 2 && (
+                        <ReceivedMessage key={message.body} msg={message.content} date={message.date} />
+                    ))
             )}
         </div>
     )

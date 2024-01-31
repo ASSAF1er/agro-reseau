@@ -5,7 +5,7 @@ import image_test from '../assets/image_test.jpg'
 import { Link } from 'react-router-dom'
 function Post({ post }) {
     const [like, setLike] = useState(false)
-    const [countLike, setCountLike] = useState(post.nbLikes ? post.nbLikes : 0)
+    const [countLike, setCountLike] = useState(post.like ? post.like : 0)
     const comments = 0
 
     const handleLike = () => {
