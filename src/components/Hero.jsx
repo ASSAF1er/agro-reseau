@@ -24,16 +24,19 @@ function Hero() {
                 </div>
             )}
             <div className="  w-[80%] sm:w-[90%] md:w-[55%] mx-[10%] sm:mx-[5%] md:mr-0">
-                <div className="text-[30px]  sm:text-[40px] md:text-[50px]  text-[#ffffff] sm:leading-[40px] md:leading-[50px] leading-[30px] font-bold">
+                <div className="text-[40px] leading-[40px] text-center sm:text-start sm:text-[40px] md:text-[50px]  text-[#ffffff] sm:leading-[40px] md:leading-[50px]  font-bold">
                     Les producteurs locaux près de chez vous pour des produits
-                    <Typed
-                        className="pl-2 text-yellow-500"
-                        strings={['Bios.', 'Frais.', 'de qualité.']}
-                        typeSpeed={50}
-                        backSpeed={50}
-                        backDelay={1000}
-                        loop
-                    />
+                    <p>
+                        {' '}
+                        <Typed
+                            className="pl-2 text-yellow-500"
+                            strings={['Bios.', 'Frais.', 'de qualité.']}
+                            typeSpeed={50}
+                            backSpeed={50}
+                            backDelay={1000}
+                            loop
+                        />
+                    </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 mt-[30px] ">
                     <div className="flex  items-center justify-between w-full sm:w-[250px]   duration-[400ms]  bg-[#65a30d] text-[#ffffff] text-[19px] px-4 py-3 rounded-[3px] shadow-md hover:cursor-pointer hover:px-2">
@@ -48,7 +51,11 @@ function Hero() {
                     </Link>
                 </div>
             </div>
-            <img alt="" src={image_hero} className="bg-white rounded-md w-[25%] h-[50%] object-cover" />
+            <img
+                alt=""
+                src={image_hero}
+                className="hidden md:visible bg-white rounded-md w-[25%] h-[50%] object-cover"
+            />
         </div>
     )
 }

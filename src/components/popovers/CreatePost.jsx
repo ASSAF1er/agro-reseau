@@ -12,19 +12,20 @@ function CreatePost({ openPopover, closePopover }) {
     const { postsList, setPostsList } = useContext(PostsData)
     const { connectedUser } = useContext(AuthContext)
     const [postDescription, setPostDescription] = useState('')
-    const [sentImage, setSentImage] = useState()
+    const [sentImage, setSentImage] = useState('')
     const [postPhoto, setPostPhoto] = useState('')
     const [showImageSelector, setShowImageSelector] = useState(false)
     const [postVideo, setPostVideo] = useState('')
     const [showVideoSelector, setShowVideoSelector] = useState(false)
     const [newPost, setNewPost] = useState({})
     useEffect(() => {
-        fetch(postPhoto)
-            .then((response) => response.blob())
-            .then((blob) => {
-                const { filename, extension } = extractFileInfo(postPhoto)
-                setSentImage(new File([blob], 'file.png', { type: `image/png` }))
-            })
+        postPhoto &&
+            fetch(postPhoto)
+                .then((response) => response.blob())
+                .then((blob) => {
+                    const { filename, extension } = extractFileInfo(postPhoto)
+                    setSentImage(new File([blob], 'file.png', { type: `image/png` }))
+                })
     }, [postPhoto])
 
     useEffect(() => {
@@ -140,7 +141,7 @@ function CreatePost({ openPopover, closePopover }) {
                                                 <img
                                                     src={postPhoto}
                                                     alt=""
-                                                    className="rounded-md h-[280px] w-[280px] mt-2 "
+                                                    className="rounded-md h-[280px] w-[280px] mt-2 object-cover"
                                                 />
                                             )}
                                             <span
@@ -176,7 +177,7 @@ function CreatePost({ openPopover, closePopover }) {
                                                 <video
                                                     src={postVideo}
                                                     alt=""
-                                                    className="rounded-md h-[280px] w-[280px] mt-2 "
+                                                    className="rounded-md h-[280px] w-[280px] mt-2 object-cover"
                                                 />
                                             )}
                                             <span

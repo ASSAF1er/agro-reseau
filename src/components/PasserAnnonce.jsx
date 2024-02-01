@@ -16,7 +16,7 @@ function PasserAnnonce() {
         }
     }
     return (
-        <div className="flex sm:w-[40%] w-[90%] mt-[50px] py-3 shadow-md px-5 flex-col justify-center items-center bg-white rounded-md">
+        <div className="flex sm:w-[40%] w-[100%] mt-[50px] py-3 shadow-md px-5 flex-col justify-center items-center bg-white rounded-md">
             <div className="flex items-center gap-2 justify-center w-full">
                 <img src={default_profile} alt="" className="h-12 object-cover w-12 rounded-full " />
 

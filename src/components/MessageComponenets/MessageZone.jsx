@@ -9,16 +9,12 @@ function MessageZone({ params }) {
     const { connectedUser } = useContext(AuthContext)
     const [user, setUser] = useState({})
     const [messagesList, setMessagesList] = useState([])
-    console.log(params)
+    console.log({ params })
     useEffect(() => {
         params.receiverId &&
             axios
                 //requete pour récupérer les informations de l'interlocuteur
-                .get(
-                    `http://localhost:8000/api/search/${parseInt(
-                        params.senderId === connectedUser.userId ? params.receiverId : params.senderId
-                    )}/`
-                )
+                .get(`http://localhost:8000/api/search/${parseInt(params.receiverId)}/`)
                 .then((res) => {
                     setUser(res.data)
                     console.log(res.data)
@@ -35,9 +31,9 @@ function MessageZone({ params }) {
                 .catch((err) => {})
     }, [params])
     return (
-        <div className="relative flex flex-col flex-1 bg-green-50">
+        <div className="relative hidden sm:flex flex-col flex-1 h-full bg-green-50">
             {params.receiverId ? (
-                <div className="w-full flex flex-col">
+                <div className="w-full flex flex-col flex-1 overflow-hidden">
                     <div className="bg-white flex p-3 justify-between items-center shadow-md ">
                         <div className="relative flex  h-[40px] w-[40px] ">
                             <img src={default_profile} alt="" className="w-full h-full  rounded-full object-cover " />
@@ -63,7 +59,7 @@ export default MessageZone
 const Messages = ({ messages }) => {
     const { connectedUser } = useContext(AuthContext)
     return (
-        <div className="flex z-[2] flex-col max-h-[80%] overflow-y-scroll px-3 py-4">
+        <div className="flex  flex-col flex-1 overflow-y-scroll px-3 py-4">
             {messages
                 ?.sort((a, b) => a.id - b.id)
                 .map((message) =>

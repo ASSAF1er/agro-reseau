@@ -1,9 +1,11 @@
 import coeur from '../assets/coeur.png'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import classNames from 'classnames'
 import image_test from '../assets/image_test.jpg'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../utils/AuthContext'
 function Post({ post }) {
+    const { connectedUser } = useContext(AuthContext)
     const [like, setLike] = useState(false)
     const [countLike, setCountLike] = useState(post.like ? post.like : 0)
     const comments = 0
@@ -80,9 +82,18 @@ function Post({ post }) {
                         {comments}
                     </span>
                 </div>
-                <div className="cursor-pointer bg-[#006400] text-white px-3 sm:px-7 py-2 rounded-md ">
-                    <Link to={`/1/messages/${post.name}`}>contacter</Link>
-                </div>
+                {parseInt(connectedUser.userId) === post.author.id ? (
+                    <Link to={''} className="cursor-pointer bg-[#006400] text-white px-3 sm:px-7 py-2 rounded-md ">
+                        Modifier
+                    </Link>
+                ) : (
+                    <Link
+                        to={`/1/messages/${post.name}`}
+                        className="cursor-pointer bg-[#006400] text-white px-3 sm:px-7 py-2 rounded-md "
+                    >
+                        contacter
+                    </Link>
+                )}
             </div>
         </div>
     )

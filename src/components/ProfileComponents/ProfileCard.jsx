@@ -31,7 +31,7 @@ function ProfileCard({ acc }) {
                     ))} */}
                 </div>
                 <div className="absolute bottom-3 right-5 flex gap-3">
-                    {connectedUser.userId === account.id ? (
+                    {parseInt(connectedUser.userId) === parseInt(account.id) ? (
                         <Link
                             to={`/profile/edit/${connectedUser.userId}/`}
                             className="flex gap-2 items-center px-5 py-[8px] rounded-[6px] bg-[#006400] hover:bg-[#005000] cursor-pointer text-white "
@@ -40,7 +40,7 @@ function ProfileCard({ acc }) {
                         </Link>
                     ) : (
                         <Link
-                            to={`/1/chat/${connectedUser.userId}/${account.id}/`}
+                            to={`/1/chat/${parseInt(connectedUser.userId)}/${account.id}/`}
                             className="flex gap-2 items-center px-5 py-[8px] rounded-[6px] bg-[#006400] hover:bg-[#005000] cursor-pointer text-white "
                         >
                             Envoyer un Message

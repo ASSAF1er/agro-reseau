@@ -43,7 +43,7 @@ function Navbar() {
             <div
                 className={classNames(
                     scroll ? 'bg-white text-[#006400] shadow-xl' : 'bg-[#006400] text-[#ffffff]',
-                    'z-20 fixed left-0 w-screen flex  items-center transition ease-in-out duration-1000 justify-between px-5   '
+                    'z-20 fixed left-0 top-0 w-screen flex  items-center transition ease-in-out duration-1000 justify-between px-5   '
                 )}
             >
                 <div className=" text-[25px] font-bold  pr-10 py-2 ">AgroRéseau</div>
@@ -55,7 +55,8 @@ function Navbar() {
                     <Link to={connectedUser ? `/1/messages/${connectedUser.userId}` : '/login'}>
                         <div
                             className={classNames(
-                                'messages' === location.pathname.split('/')[2]
+                                'messages' === location.pathname.split('/')[2] ||
+                                    'chat' === location.pathname.split('/')[2]
                                     ? 'text-[#fbbf24]  bord border-b-[#fbbf24]'
                                     : '',
                                 nav

@@ -9,8 +9,8 @@ function MsgInputZone({ messages, setMessages, receiver }) {
     useEffect(() => {
         setMessage({
             message: newMessage,
-            user: connectedUser.userId,
-            sender: connectedUser.userId,
+            user: parseInt(connectedUser.userId),
+            sender: parseInt(connectedUser.userId),
             receiver: receiver.id
         })
     }, [newMessage])
@@ -25,8 +25,8 @@ function MsgInputZone({ messages, setMessages, receiver }) {
         setNewMessage('')
     }
     return (
-        <form className="w-full">
-            <div className="absolute bottom-2 flex w-full items-center justify-center gap-3 px-5">
+        <form className="w-full my-2">
+            <div className=" bottom-2 flex w-full items-center justify-center gap-3 px-5">
                 <div className="px-5 rounded-full border border-[#006400] py-1 w-full bg-white shadow-sm">
                     <input
                         type="text"

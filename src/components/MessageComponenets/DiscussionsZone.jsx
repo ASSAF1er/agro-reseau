@@ -7,13 +7,15 @@ import { AuthContext } from '../../utils/AuthContext'
 import { MessagesContext } from '../../utils/MessagesContext'
 function DiscussionZone({ userMessages }) {
     return (
-        <div className="flex flex-col gap-1 pt-2 px-2 w-[30%] bg-green-100">
+        <div className="flex flex-col gap-1 py-2 px-2 w-full sm:w-[30%] bg-green-100">
             <p className="text-[25px] font-bold pl-2 ">Discussions</p>
-            {userMessages.length > 0 ? (
-                userMessages.map((item) => <SingleDiscussion discussion={item} />)
-            ) : (
-                <div>contactez un autre utilisateur maintenant</div>
-            )}
+            <div className="h-full flex flex-col gap-1 overflow-y-scroll">
+                {userMessages.length > 0 ? (
+                    userMessages.map((item) => <SingleDiscussion discussion={item} />)
+                ) : (
+                    <div>contactez un autre utilisateur maintenant</div>
+                )}
+            </div>
         </div>
     )
 }

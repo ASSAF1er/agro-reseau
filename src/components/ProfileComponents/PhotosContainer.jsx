@@ -1,7 +1,7 @@
 import default_profile from '../../assets/default_profile.jpg'
 function PhotosContainer() {
     return (
-        <div className="flex flex-col h-[300px] shadow-sm rounded-[20px] bg-white py-[20px] px-[20px] ">
+        <div className="flex flex-col  shadow-sm rounded-[20px] bg-white py-[20px] px-[20px] ">
             <div className="flex justify-between mb-7">
                 {' '}
                 <p className="font-bold text-[18px] ">Photos</p>
