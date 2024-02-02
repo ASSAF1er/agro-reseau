@@ -20,7 +20,6 @@ function Navbar() {
     const handleNavbarColor = () => {
         if (window.scrollY > 0) {
             setScroll(true)
-            console.log(connectedUser)
         } else {
             setScroll(false)
         }

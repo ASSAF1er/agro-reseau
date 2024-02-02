@@ -17,6 +17,7 @@ import ProducersDataProvider from "./utils/ProducersContext ";
 import LayoutMessages from "./components/LayoutMessages";
 import EditProfile from "./pages/EditProfile";
 import CreatePost from './pages/CreatePost'
+import EditPost from "./pages/EditPost";
 function App() {
   return (
     
@@ -36,7 +37,7 @@ function App() {
           <Route path='/profile/:id' element={<Profile/>}/>
           <Route path="/profile/edit/:id"  element={<EditProfile/>} />
           <Route path="/new-post" element={<CreatePost/>} />
-          
+          <Route path="/edit-post/:id" element={<EditPost/>} />
           
         </Route>
         <Route path="/1" element={<LayoutMessages/>}>

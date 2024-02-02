@@ -4,10 +4,10 @@ import { useContext } from 'react'
 import { ProducersData } from '../utils/ProducersContext '
 function ProductorContainer({ productor }) {
     return (
-        <div className="relative w-[200px] transition-all ease-in-out h-[300px] shadow-sm hover:shadow-2xl hover:scale-[1.07] duration-300 rounded-md bg-white border boder-1 border-gray-300">
-            <div>
+        <div className="group relative w-[200px]  h-[300px] shadow-sm   rounded-md bg-white border boder-1 border-gray-300">
+            <div className="overflow-hidden">
                 <img
-                    className="h-[160px] object-cover w-full"
+                    className="h-[160px] object-cover w-full overflow-hidden group-hover:scale-[1.07] transition-all ease-in-out duration-300"
                     src={productor.photo ? productor.photo : default_profile}
                     alt=""
                     loading="lazy"
@@ -16,14 +16,14 @@ function ProductorContainer({ productor }) {
             <div className="px-2">
                 <Link
                     to={`/profile/${productor.name}`}
-                    className="text-[#166534] font-bold text-[17px] hover:underline"
+                    className="text-[#006400] font-bold text-[17px] hover:underline"
                 >
                     {productor.name}
                 </Link>
                 <div className="text-[12px] ">{productor.description}</div>
             </div>
             <div className="flex flex-row items-center justify-around ">
-                <div className="text-[#166534]">
+                <div className="text-[#006400]">
                     <span className="material-icons  ">grade</span>
                     <span className="material-icons  ">grade</span>
                     <span className="material-icons  ">grade</span>
@@ -31,12 +31,12 @@ function ProductorContainer({ productor }) {
                     <span className="material-icons-outlined">grade</span>
                 </div>
                 <div>
-                    <p className="text-center font-bold text-[#166534] ">3,8</p>
+                    <p className="text-center font-bold text-[#006400] ">3,8</p>
                     <p className="text-[12px]">476 avis</p>
                 </div>
             </div>
-            <div className="absolute left-0 bottom-0 cursor-pointer  bg-[#166534] text-white text-[15px] text-center w-full py-2 rounded-b-md  ">
-                Contacter
+            <div className="absolute flex items-center justify-center left-0 bottom-0 cursor-pointer  bg-[#006400] text-white text-[15px] text-center w-full py-2 rounded-b-md  ">
+                Voir <span className="material-icons text-[15px] ">open_in_new</span>
             </div>
         </div>
     )

@@ -6,6 +6,7 @@ import NearbyProductors from '../components/NearbyProductors'
 import PasserAnnonce from '../components/PasserAnnonce'
 import { useState } from 'react'
 import classNames from 'classnames'
+import Carrousel from '../components/Carrousel'
 
 function Home() {
     document.documentElement.scrollTop = 0
@@ -36,11 +37,11 @@ function Home() {
                     gauche
                 </div>
                 <RecentPosts initial_index={0} end_index={2} />
-                <div className="hidden sm:visible bg-white shadow-md rounded-md w-[300px]">droite</div>
+                {/* <div className="hidden sm:visible bg-white shadow-md rounded-md w-[300px]">droite</div> */}
             </div>
 
             {/* <NearbyProductors /> */}
-
+            <Carrousel />
             <RecentPosts initial_index={2} end_index={10} />
         </div>
     )

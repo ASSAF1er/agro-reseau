@@ -83,7 +83,10 @@ function Post({ post }) {
                     </span>
                 </div>
                 {parseInt(connectedUser.userId) === post.author.id ? (
-                    <Link to={''} className="cursor-pointer bg-[#006400] text-white px-3 sm:px-7 py-2 rounded-md ">
+                    <Link
+                        to={`/edit-post/${post.id}`}
+                        className="cursor-pointer bg-[#006400] text-white px-3 sm:px-7 py-2 rounded-md "
+                    >
                         Modifier
                     </Link>
                 ) : (

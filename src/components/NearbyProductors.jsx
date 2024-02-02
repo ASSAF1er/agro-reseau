@@ -12,7 +12,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 function NearbyProductors() {
     return (
         <div className=" flex flex-col items-center justify-center pb-5">
-            <p className="text-center  text-[20px] sm:text-[50px] text-[#333333] font-bold py-[20px]">
+            <p className="text-center  text-[20px] sm:text-[20px] text-[#333333] font-bold py-[20px]">
                 Producteurs près de chez vous
             </p>
 

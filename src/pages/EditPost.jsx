@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom'
 function EditPost() {
     const { postsList, setPostsList } = useContext(PostsData)
     const { connectedUser } = useContext(AuthContext)
+
     const [postDescription, setPostDescription] = useState('')
     const [sentImage, setSentImage] = useState('')
     const [postPhoto, setPostPhoto] = useState('')
@@ -19,30 +20,42 @@ function EditPost() {
     const [postVideo, setPostVideo] = useState('')
     const [showVideoSelector, setShowVideoSelector] = useState(false)
     const [newPost, setNewPost] = useState({})
-    useEffect(() => {
-        postPhoto &&
-            fetch(postPhoto)
-                .then((response) => response.blob())
-                .then((blob) => {
-                    setSentImage(new File([blob], 'file.png', { type: `image/png` }))
-                })
-    }, [postPhoto])
 
+    const params = useParams()
     useEffect(() => {
-        const hours = new Date().getHours()
-        const mins = new Date().getMinutes()
-        const secs = new Date().getSeconds()
-        const day = new Date().getDate()
-        const month = new Date().getMonth() + 1
-        const year = new Date().getFullYear()
-        setNewPost({
-            description: postDescription,
-            image: sentImage,
-            like: 0,
-            //video: postVideo,
-            author: { username: connectedUser?.username }
-        })
-    }, [postDescription, sentImage, postVideo])
+        axios
+            .get(`http://localhost:8000/api_poste/${parseInt(params.id)}/`)
+            .then((res) => {
+                setPostDescription(res.data.description)
+                setPostPhoto(res.data.image)
+                res.data.image && setShowImageSelector(true)
+            })
+            .catch((err) => console.log(err))
+    }, [params])
+    // useEffect(() => {
+    //     postPhoto &&
+    //         fetch(postPhoto)
+    //             .then((response) => response.blob())
+    //             .then((blob) => {
+    //                 setSentImage(new File([blob], 'file.png', { type: `image/png` }))
+    //             })
+    // }, [postPhoto])
+
+    // useEffect(() => {
+    //     const hours = new Date().getHours()
+    //     const mins = new Date().getMinutes()
+    //     const secs = new Date().getSeconds()
+    //     const day = new Date().getDate()
+    //     const month = new Date().getMonth() + 1
+    //     const year = new Date().getFullYear()
+    //     setNewPost({
+    //         description: postDescription,
+    //         image: sentImage,
+    //         like: 0,
+    //         //video: postVideo,
+    //         author: { username: connectedUser?.username }
+    //     })
+    // }, [postDescription, sentImage, postVideo])
 
     const [success, setSuccess] = useState(false)
     const addPost = (newPost) => {
@@ -214,7 +227,7 @@ function EditPost() {
                     onClick={(e) => handleAddPost(e)}
                     className="w-full cursor-pointer flex justify-center py-2 text-[17px] text-white font-bold bg-[#006400] hover:bg-[#178240] rounded-lg "
                 >
-                    Publier
+                    Valider
                 </button>
             </div>
         </form>
