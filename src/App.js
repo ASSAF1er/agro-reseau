@@ -16,6 +16,7 @@ import ChatBotContextProvider  from "./utils/ChatBotContext";
 import ProducersDataProvider from "./utils/ProducersContext ";
 import LayoutMessages from "./components/LayoutMessages";
 import EditProfile from "./pages/EditProfile";
+import CreatePost from './pages/CreatePost'
 function App() {
   return (
     
@@ -34,6 +35,7 @@ function App() {
           <Route path="/our-team" element={<OurTeam/>}/>
           <Route path='/profile/:id' element={<Profile/>}/>
           <Route path="/profile/edit/:id"  element={<EditProfile/>} />
+          <Route path="/new-post" element={<CreatePost/>} />
           
           
         </Route>

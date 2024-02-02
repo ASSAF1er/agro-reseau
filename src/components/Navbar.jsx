@@ -16,6 +16,7 @@ function Navbar() {
     }
     const [scroll, setScroll] = useState(false)
     const [showSearchInput, setShowSearchInput] = useState(false)
+
     const handleNavbarColor = () => {
         if (window.scrollY > 0) {
             setScroll(true)

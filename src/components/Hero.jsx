@@ -39,10 +39,12 @@ function Hero() {
                     </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 mt-[30px] ">
-                    <div className="flex  items-center justify-between w-full sm:w-[250px]   duration-[400ms]  bg-[#65a30d] text-[#ffffff] text-[19px] px-4 py-3 rounded-[3px] shadow-md hover:cursor-pointer hover:px-2">
-                        Passer une annonce
-                        <span className="material-icons">arrow_right_alt</span>
-                    </div>
+                    <Link to={connectedUser ? `/new-post` : '/login'}>
+                        <div className="flex  items-center justify-between w-full sm:w-[250px]   duration-[400ms]  bg-[#65a30d] text-[#ffffff] text-[19px] px-4 py-3 rounded-[3px] shadow-md hover:cursor-pointer hover:px-2">
+                            Passer une annonce
+                            <span className="material-icons">arrow_right_alt</span>
+                        </div>
+                    </Link>
                     <Link to="/producteurs">
                         <div className="flex items-center  justify-between bg-[#3f6212] text-[#ffffff] w-full sm:w-[290px] text-[19px] duration-[400ms] px-4 py-3 rounded-[3px] shadow-md hover:cursor-pointer hover:px-2">
                             Contacter un producteur

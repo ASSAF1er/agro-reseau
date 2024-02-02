@@ -14,7 +14,7 @@ function Messages() {
     useEffect(() => {
         connectedUser.userId &&
             axios
-                .get(`http://localhost:8000/api_message/my-massages/${connectedUser.userId}/`)
+                .get(`http://localhost:8000/api_message/messages/${connectedUser.userId}/`)
                 .then((res) => {
                     setUserMessages(res.data)
                 })

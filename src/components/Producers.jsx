@@ -50,11 +50,11 @@ function Producers() {
                                 offre de qualité à bas prix{' '}
                             </p>
                         </div>
-                        <div>
+                        <Link to="/new-post">
                             <span className="bg-[#006400] cursor-pointer hover:font-bold text-[18px] w-full text-white py-3 px-5 rounded-xl  border-2 border-[#006400] hover:bg-gray-100 hover:text-[#006400]">
                                 Passer une annonce
                             </span>
-                        </div>
+                        </Link>
                     </div>
                     <div className="text-center flex flex-col gap-5 shadow-md py-5 bg-white rounded-[20px] w-[80%]">
                         {' '}
@@ -68,11 +68,11 @@ function Producers() {
                                 pour l'écoulement de vos produits
                             </p>
                         </div>
-                        <div>
+                        <Link to="/new-post">
                             <span className="bg-[#006400] cursor-pointer text-[18px] hover:font-bold w-full text-white py-3 px-5 rounded-xl  border-2 border-[#006400] hover:bg-gray-100 hover:text-[#006400]">
                                 Passer une annonce
                             </span>
-                        </div>
+                        </Link>
                     </div>
                     <div className="text-center flex flex-col gap-5  py-5   w-[90%]">
                         <p className="font-bold text-[20px] ">Les produits les plus demandés ces 30 derniers jours</p>
