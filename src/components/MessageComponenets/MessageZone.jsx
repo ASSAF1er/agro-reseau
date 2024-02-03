@@ -30,6 +30,7 @@ function MessageZone({ params }) {
                 })
                 .catch((err) => {})
     }, [params])
+    setTimeout(()=>{},100)
     return (
         <div className="relative hidden sm:flex flex-col flex-1 h-full bg-green-50">
             {params.receiverId ? (

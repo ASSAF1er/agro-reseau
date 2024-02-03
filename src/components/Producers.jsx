@@ -8,7 +8,13 @@ function Producers() {
     const { producersList, search, searchClicked } = useContext(ProducersData)
     const [tempProducersList, setTempProducersList] = useState()
     useEffect(() => {
-        setTempProducersList(producersList.filter((item) => item.username.toLowerCase().includes(search.toLowerCase())))
+        setTempProducersList(
+            producersList.filter(
+                (item) =>
+                    item.username.toLowerCase().includes(search.toLowerCase()) ||
+                    (item.ville && item.ville.toLowerCase().includes(search.toLowerCase()))
+            )
+        )
     }, [search, producersList])
 
     const produitsRecherches = [
@@ -126,7 +132,7 @@ function Card({ productor }) {
                     {productor.username}
                 </Link>
                 <div className="text-gray-600  text-[13px] text-center">
-                    <span className="material-icons-outlined text-[15px] font-bold">place</span> {productor.ville}
+                    <span className="material-icons-outlined text-[15px] font-bold">place</span> {productor.ville},
                     Cameroun
                 </div>
             </div>

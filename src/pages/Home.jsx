@@ -19,7 +19,7 @@ function Home() {
     // }
     // window.addEventListener('scroll', handleShowSides)
     return (
-        <div className="flex flex-col w-full  justify-center items-center overflow-hidden bg-gray-200 ">
+        <div className="flex flex-col w-full pb-5 justify-center items-center overflow-hidden bg-gray-200 ">
             <Hero />
 
             {/* <Categories /> */}
@@ -41,7 +41,7 @@ function Home() {
             </div>
 
             {/* <NearbyProductors /> */}
-            <Carrousel />
+            {/* <Carrousel /> */}
             <RecentPosts initial_index={2} end_index={10} />
         </div>
     )

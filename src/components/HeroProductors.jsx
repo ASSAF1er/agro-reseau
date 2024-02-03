@@ -5,7 +5,8 @@ import { ProducersData } from '../utils/ProducersContext '
 import classNames from 'classnames'
 
 function HeroProductors() {
-    const { producersList, setProducersList, setSearch, setSearchClicked } = useContext(ProducersData)
+    const { filters, setFilters, producersList, setProducersList, setSearch, setSearchClicked } =
+        useContext(ProducersData)
     const [showCategories, setShowCategories] = useState(false)
     const [searchText, setSearchText] = useState('')
     const categoriesList = [
@@ -14,7 +15,7 @@ function HeroProductors() {
     ]
     const [nameSelected, setNameSelected] = useState(true)
     const [productSelected, setProductSelected] = useState(false)
-    const [townSelected, setTownSelected] = useState(false)
+    const [townSelected, setTownSelected] = useState(true)
     const handleSearch = (e) => {
         e.preventDefault()
         setSearch(searchText.trim())
@@ -55,6 +56,8 @@ function HeroProductors() {
                                 <li
                                     onClick={() => {
                                         setNameSelected(!nameSelected)
+                                        if (filters.includes('nom')) {
+                                        }
                                     }}
                                     className="flex items-center z-[20] justify-around py-2  hover:bg-green-200 rounded-md "
                                 >

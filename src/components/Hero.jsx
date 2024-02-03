@@ -53,11 +53,7 @@ function Hero() {
                     </Link>
                 </div>
             </div>
-            <img
-                alt=""
-                src={image_hero}
-                className="hidden md:visible bg-white rounded-md w-[25%] h-[50%] object-cover"
-            />
+            <img alt="" src={image_hero} className="visible bg-white rounded-md w-[25%] h-[50%] object-cover" />
         </div>
     )
 }

@@ -385,12 +385,7 @@ function EditProfile() {
                         ))}
                     </div>
                 </div>
-                {successful && (
-                    <div className="flex items-center  justify-center gap-2 my-2 bg-green-200 text-green-700 font-medium rounded-md shadow-md text-center py-[20px] ">
-                        <span className="material-icons">check_circle</span>
-                        {'  '} Publication effectuée
-                    </div>
-                )}
+
                 <div className="flex justify-center ">
                     <button
                         onClick={handleEditAccount}

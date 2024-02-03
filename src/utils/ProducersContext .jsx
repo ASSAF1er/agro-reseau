@@ -15,9 +15,19 @@ export const ProducersDataProvider = ({ children }) => {
     const [producersList, setProducersList] = useState([])
     const [searchClicked, setSearchClicked] = useState(false)
     const [search, setSearch] = useState('')
+    const [filters, setFilters] = useState([])
     return (
         <ProducersData.Provider
-            value={{ producersList, setProducersList, searchClicked, setSearchClicked, search, setSearch }}
+            value={{
+                filters,
+                setFilters,
+                producersList,
+                setProducersList,
+                searchClicked,
+                setSearchClicked,
+                search,
+                setSearch
+            }}
         >
             {children}
         </ProducersData.Provider>

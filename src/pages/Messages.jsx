@@ -1,4 +1,4 @@
-import { Message } from '@mui/icons-material'
+
 import { useEffect, useState, useContext } from 'react'
 import default_profile from '../assets/default_profile.jpg'
 import MessageZone from '../components/MessageComponenets/MessageZone'
@@ -16,7 +16,7 @@ function Messages() {
             axios
                 .get(`http://localhost:8000/api_message/messages/${parseInt(connectedUser.userId)}/`)
                 .then((res) => {
-                    setUserMessages(res.data)
+                    setUserMessages([res.data])
                 })
                 .catch((err) => console.log(err))
     }, [connectedUser.userId])
