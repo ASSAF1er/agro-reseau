@@ -32,35 +32,35 @@ function EditPost() {
             })
             .catch((err) => console.log(err))
     }, [params])
-    // useEffect(() => {
-    //     postPhoto &&
-    //         fetch(postPhoto)
-    //             .then((response) => response.blob())
-    //             .then((blob) => {
-    //                 setSentImage(new File([blob], 'file.png', { type: `image/png` }))
-    //             })
-    // }, [postPhoto])
+    useEffect(() => {
+        postPhoto &&
+            fetch(postPhoto)
+                .then((response) => response.blob())
+                .then((blob) => {
+                    setSentImage(new File([blob], 'file.png', { type: `image/png` }))
+                })
+    }, [postPhoto])
 
-    // useEffect(() => {
-    //     const hours = new Date().getHours()
-    //     const mins = new Date().getMinutes()
-    //     const secs = new Date().getSeconds()
-    //     const day = new Date().getDate()
-    //     const month = new Date().getMonth() + 1
-    //     const year = new Date().getFullYear()
-    //     setNewPost({
-    //         description: postDescription,
-    //         image: sentImage,
-    //         like: 0,
-    //         //video: postVideo,
-    //         author: { username: connectedUser?.username }
-    //     })
-    // }, [postDescription, sentImage, postVideo])
+    useEffect(() => {
+        const hours = new Date().getHours()
+        const mins = new Date().getMinutes()
+        const secs = new Date().getSeconds()
+        const day = new Date().getDate()
+        const month = new Date().getMonth() + 1
+        const year = new Date().getFullYear()
+        setNewPost({
+            description: postDescription,
+            image: sentImage,
+            like: 0,
+            //video: postVideo,
+            author: { username: connectedUser?.username }
+        })
+    }, [postDescription, sentImage, postVideo])
 
     const [success, setSuccess] = useState(false)
-    const addPost = (newPost) => {
+    const editPost = (newPost) => {
         axios
-            .post('http://localhost:8000/api_poste/create/', newPost, {
+            .put(`http://localhost:8000/api_poste/${parseInt(params.id)}/update/`, newPost, {
                 headers: {
                     Authorization: `token ${connectedUser.token}`,
                     'Content-Type': 'multipart/form-data'
@@ -76,9 +76,9 @@ function EditPost() {
             .catch((error) => console.log(error))
     }
     const [descriptionError, setDescriptionError] = useState(false)
-    const handleAddPost = (e) => {
+    const handleEditPost = (e) => {
         e.preventDefault()
-        postDescription && addPost(newPost)
+        postDescription && editPost(newPost)
         !postDescription && setDescriptionError(true)
         console.log(postPhoto)
         setPostsList([newPost, ...postsList])
@@ -224,7 +224,7 @@ function EditPost() {
                 )}
                 <button
                     type="submit"
-                    onClick={(e) => handleAddPost(e)}
+                    onClick={(e) => handleEditPost(e)}
                     className="w-full cursor-pointer flex justify-center py-2 text-[17px] text-white font-bold bg-[#006400] hover:bg-[#178240] rounded-lg "
                 >
                     Valider

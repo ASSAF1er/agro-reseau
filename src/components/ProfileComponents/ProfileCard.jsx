@@ -22,8 +22,13 @@ function ProfileCard({ acc }) {
                     <span className="material-icons-outlined text-[16px] ">place</span> {' ' + account.ville},Cameroun
                 </p>
                 <p className="pt-[10px] text-gray-800 ">
-                    Je suis un développeur passioné de la résolution des problèmes difficiles et de l'entrepreneuriat.
-                    chaque jour je m'eforce à mettre sur pied une entreprise revolutionnare au Cameroun et en Afrique.
+                    {account.description ? (
+                        <p>{account.description}</p>
+                    ) : (
+                        <p className="text-gray-500 text-[18px] text-center border-2 border-blue-200 bg-blue-100 py-2 rounded-md ">
+                            Vous n'avez ajouté aucune description à votre profil. Faites-le en modifiant votre profil
+                        </p>
+                    )}
                 </p>
                 <div className="flex flex-row  flex-wrap gap-[10px] mt-[20px] ">
                     {/* {account.products.split(',').map((item) => (

@@ -1,9 +1,10 @@
 import default_pofile from '../assets/default_profile.jpg'
 import classNames from 'classnames'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-
+import { Navigate } from 'react-router-dom'
+import { AuthContext } from '../utils/AuthContext'
 function EditProfile() {
     useEffect(() => {
         axios
@@ -20,6 +21,7 @@ function EditProfile() {
             })
             .catch((err) => console.log(err))
     }, [])
+    const { connectedUser } = useContext(AuthContext)
     const [account, setAccount] = useState({})
     const [userName, setUserName] = useState(account.username)
     const [send, setSend] = useState(false)
@@ -36,7 +38,55 @@ function EditProfile() {
     const [validTypeAccount, setValidTypeAccount] = useState('')
     const [product, setProduct] = useState()
     const [soldProducts, setSoldProducts] = useState([])
+    const [successful, setSuccessful] = useState(true)
+    const [errorMessage, setErrorMessage] = useState('')
     const params = useParams()
+
+    const [newUser, setNewUser] = useState({})
+    useEffect(() => {
+        setNewUser({
+            username: userName,
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            description: description,
+            ville: town,
+            type_compte: typeAccount,
+            addresse: ''
+        })
+    }, [userName, firstName, description, lastName, email, town, typeAccount])
+
+    const handleEditAccount = () => {
+        setSend(true)
+        setValidEmail(validateEmail(email))
+
+        if (validateEmail(email) && lastName && firstName && userName) {
+            editUser()
+        }
+    }
+
+    const editUser = async () => {
+        await axios
+            .put('http://localhost:8000/api/user/update/', newUser, {
+                headers: {
+                    Authorization: `token ${connectedUser.token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then((res) => {
+                console.log({ res })
+                setSuccessful(true)
+                setTimeout(() => {
+                    return <Navigate to="/" />
+                }, 2000)
+                setErrorMessage(false)
+            })
+            .catch((res) => {
+                console.log({ res })
+                setErrorMessage(res.response.data)
+                setSuccessful(false)
+            })
+    }
 
     const handleAddproduct = (prod) => {
         if (prod.trim() !== '') {
@@ -335,8 +385,19 @@ function EditProfile() {
                         ))}
                     </div>
                 </div>
+                {successful && (
+                    <div className="flex items-center  justify-center gap-2 my-2 bg-green-200 text-green-700 font-medium rounded-md shadow-md text-center py-[20px] ">
+                        <span className="material-icons">check_circle</span>
+                        {'  '} Publication effectuée
+                    </div>
+                )}
                 <div className="flex justify-center ">
-                    <button className="bg-green-500 px-14 py-3 rounded-sm shadow-xl hover:shadow">Valider</button>
+                    <button
+                        onClick={handleEditAccount}
+                        className="bg-green-500 px-14 py-3 rounded-sm shadow-xl hover:shadow"
+                    >
+                        Valider
+                    </button>
                 </div>
             </div>
         </div>

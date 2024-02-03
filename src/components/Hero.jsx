@@ -12,7 +12,7 @@ function Hero() {
         setTimeout((setDisplay(false), 15000))
     }, [])
     return (
-        <div className=" relative  flex gap-[100px] h-screen items-center bg-[#006400] overflow-hidden ">
+        <div className=" relative w-screen  flex gap-[100px] h-screen items-center bg-[#006400] overflow-hidden ">
             {connectedUser && (
                 <div
                     className={classNames(
